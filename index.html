@@ -57,7 +57,6 @@
         }
         .input-box:focus { border-color: var(--gold); background: rgba(255,255,255,0.08); }
 
-
         .btn {
             font-family: 'Barlow Condensed', sans-serif;
             font-weight: 700; font-size: 1rem; letter-spacing: .2em; text-transform: uppercase;
@@ -77,13 +76,52 @@
         }
         #splash-sub { color: #b5835a; letter-spacing: 0.6em; text-transform: uppercase; font-size: 0.8rem; margin-bottom: 2rem; }
 
+        #serial-status {
+            color: rgba(255,255,255,0.55);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            margin-bottom: 1rem;
+            min-height: 1em;
+        }
+
+        #connect-btn {
+            margin-bottom: 1rem;
+        }
+
+        #home-btn {
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            z-index: 200;
+            padding: 0.35rem 0.7rem;
+            min-width: 0;
+            width: auto;
+            height: auto;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.14);
+            background: rgba(12,12,14,0.78);
+            color: #fff;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 0.6rem;
+            line-height: 1;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            pointer-events: auto;
+        }
+        #home-btn:hover { border-color: rgba(251,191,36,0.45); background: rgba(20,20,22,0.88); }
 
         #hud { position: fixed; inset: 0; pointer-events: none; z-index: 20; }
         #top-bar { padding: 2rem; display: flex; justify-content: space-between; }
         #score-num { font-family: 'JetBrains Mono', monospace; font-size: 2.5rem; color: var(--gold); }
         #combo-wrap { position: absolute; left: 50%; top: 20%; transform: translateX(-50%); text-align: center; opacity: 0; transition: opacity 0.3s; }
         #combo-num { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; line-height: 1; }
-
 
         #key-guide {
             position: fixed; bottom: 1.5rem; width: 100%;
@@ -93,40 +131,33 @@
             font-weight: 600;
         }
 
-
         #countdown {
             position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center;
             font-family: 'Bebas Neue', sans-serif; font-size: 15rem; color: var(--gold); pointer-events: none; opacity: 0;
         }
-
 
         .result-header { margin-bottom: 2rem; }
         #result-name { color: var(--gold); font-family: 'Bebas Neue'; font-size: 1.5rem; letter-spacing: 0.1em; display: block; }
         #result-rank { font-size: 8rem; color: #fff; font-family: 'Bebas Neue'; line-height: 0.9; margin: 0.5rem 0; text-shadow: 0 0 30px rgba(251, 191, 36, 0.3); }
         #coach-comment { font-size: 1.2rem; line-height: 1.5; color: #e5e7eb; max-width: 550px; margin: 0 auto 2.5rem; font-style: italic; }
 
-
         .dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; text-align: left; }
         .panel { background: rgba(255,255,255,0.03); border-radius: 1.25rem; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.05); }
         .panel-h { font-family: 'Bebas Neue'; font-size: 1.2rem; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 1rem; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; }
 
-
         .metric-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.8rem; }
         .metric-lbl { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; }
         .metric-val { font-family: 'JetBrains Mono'; font-size: 1.1rem; color: #fff; }
-
 
         .insight-item { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.8rem; font-size: 0.9rem; }
         .insight-icon { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
         .icon-pos { background: #10b981; box-shadow: 0 0 8px #10b981; }
         .icon-neg { background: #f43f5e; box-shadow: 0 0 8px #f43f5e; }
 
-
         .lb-minimal { margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; }
         .lb-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 0.4rem 0.5rem; border-radius: 4px; }
         .lb-row:nth-child(even) { background: rgba(255,255,255,0.02); }
         .lb-row.active { background: rgba(251, 191, 36, 0.1); color: var(--gold); font-weight: 700; }
-
 
         @media (max-width: 600px) {
             .dashboard { grid-template-columns: 1fr; }
@@ -138,9 +169,11 @@
         <h1 id="splash-title">VIRTUOSO</h1>
         <p id="splash-sub">Hardware Placement Trainer</p>
         <input type="text" id="player-name" class="input-box" placeholder="ENTER YOUR NAME" maxlength="12">
+        <div id="serial-status">ARDUINO NOT CONNECTED</div>
+        <button class="btn" id="connect-btn">Connect Arduino</button>
         <button class="btn" id="start-btn">Begin Session</button>
+        <button class="btn" id="free-play-btn" style="margin-top: 1rem;">Free Play Mode</button>
     </div>
-
 
     <div id="result" class="screen hidden">
         <div class="glass">
@@ -171,13 +204,11 @@
                     </div>
                 </div>
 
-
                 <div class="panel">
                     <h3 class="panel-h">Coach's Focus Areas</h3>
                     <div id="insight-list"></div>
                 </div>
             </div>
-
 
             <div class="lb-minimal">
                 <h3 class="panel-h" style="border: none; text-align: center;">Leaderboard</h3>
@@ -188,41 +219,43 @@
         </div>
     </div>
 
-
     <div id="countdown"></div>
 
+    <div id="freeplay-readout" style="position: fixed; left: 50%; top: 28%; transform: translateX(-50%); z-index: 30; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.2s;">
+        <div id="freeplay-note" style="font-family: 'Bebas Neue', sans-serif; font-size: 5rem; line-height: 0.9; color: #fff; text-shadow: 0 0 30px rgba(251, 191, 36, 0.25);">C</div>
+        <div id="freeplay-detail" style="font-size: 0.85rem; letter-spacing: 0.25em; opacity: 0.6;">STRING / FRET</div>
+    </div>
+
+    <button id="home-btn">HOME</button>
 
     <div id="hud">
         <div id="top-bar">
             <div>
-                <h2 style="font-family: 'Bebas Neue'; font-size: 1.8rem;">Ode to Joy</h2>
-                <p style="font-size: 0.7rem; letter-spacing: 0.2em; opacity: 0.5;">PLACEMENT TRAINING</p>
+                <h2 id="mode-title" style="font-family: 'Bebas Neue'; font-size: 1.8rem;">Ode to Joy</h2>
+                <p id="mode-subtitle" style="font-size: 0.7rem; letter-spacing: 0.2em; opacity: 0.5;">PLACEMENT TRAINING</p>
             </div>
             <div id="score-num">000000</div>
         </div>
+        
         <div id="combo-wrap">
             <div style="font-size: 0.8rem; letter-spacing: 0.4em; opacity: 0.5;">STREAK</div>
             <div id="combo-num">×0</div>
         </div>
     </div>
 
-
     <div id="key-guide">
-        <span>S4 (A): 6 | 1-5</span>
-        <span>S3 (E): Y | Q-T</span>
-        <span>S2 (C): H | A-G</span>
-        <span>S1 (G): N | Z-B</span>
+        <span>S4: A STRING</span>
+        <span>S3: E STRING</span>
+        <span>S2: C STRING</span>
+        <span>S1: G STRING</span>
     </div>
 
-
     <canvas id="c"></canvas>
-
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
         import { getFirestore, collection, addDoc, getDocs, doc, setDoc } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
-
 
         'use strict';
         const canvas = document.getElementById('c');
@@ -234,7 +267,14 @@
         const comboEl = document.getElementById('combo-num');
         const comboWrap = document.getElementById('combo-wrap');
         const nameInput = document.getElementById('player-name');
-
+        const serialStatusEl = document.getElementById('serial-status');
+        const modeTitleEl = document.getElementById('mode-title');
+        const modeSubtitleEl = document.getElementById('mode-subtitle');
+        const freeplayReadoutEl = document.getElementById('freeplay-readout');
+        const freeplayNoteEl = document.getElementById('freeplay-note');
+        const freeplayDetailEl = document.getElementById('freeplay-detail');
+        const topBarEl = document.getElementById('top-bar');
+        const scoreNumEl = document.getElementById('score-num');
 
         // FIX 3: Fully safe Firebase initialization guard
         let firebaseConfig = null;
@@ -244,19 +284,16 @@
         const db = app ? getFirestore(app) : null;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'virtuoso-arduino';
 
-
         // FIX 1: Timing constants (units: beats)
         const EARLY_WINDOW = 0.3;
         const LATE_WINDOW = 0.45;
         const PERFECT_WINDOW = 0.12;
         const INPUT_DEBOUNCE = 50;
 
-
         let user = null;
         if (auth) {
             onAuthStateChanged(auth, (u) => { user = u; });
         }
-
 
         const initAuth = async () => {
           if (!auth) return;
@@ -268,7 +305,6 @@
         };
         initAuth();
 
-
         const STRS = [
             { id: 3, label: 'A', freq: 440.00, col: '#c4b5fd', rgb: '196,181,253', keys: ['6','1','2','3','4','5'] },
             { id: 2, label: 'E', freq: 329.63, col: '#6ee7b7', rgb: '110,231,183', keys: ['y','q','w','e','r','t'] },
@@ -276,10 +312,8 @@
             { id: 0, label: 'G', freq: 392.00, col: '#fca5a5', rgb: '252,165,165', keys: ['n','z','x','c','v','b'] }
         ];
 
-
         const KEYMAP = {};
         STRS.forEach(s => s.keys.forEach((k, i) => KEYMAP[k] = { sid: s.id, fret: i }));
-
 
         const BEAT_OFFSET = 1.0;
         const RAW_SONG = [
@@ -300,16 +334,131 @@
             {s:1,f:2,b:60.5}, {s:1,f:0,b:61}, {s:1,f:0,b:62}
         ];
 
-
         const SONG = RAW_SONG.map(n => ({ ...n, b: n.b + BEAT_OFFSET }));
 
+        // ADDED 2026-04-17: Convert string + fret into displayed musical note names
+        function getDisplayNoteName(sid, fret) {
+            const NOTE_NAMES = {
+                0: ['G', 'G#', 'A', 'A#', 'B', 'C'],
+                1: ['C', 'C#', 'D', 'D#', 'E', 'F'],
+                2: ['E', 'F', 'F#', 'G', 'G#', 'A'],
+                3: ['A', 'A#', 'B', 'C', 'C#', 'D']
+            };
+            return (NOTE_NAMES[sid] && NOTE_NAMES[sid][fret]) ? NOTE_NAMES[sid][fret] : '';
+        }
 
         let phase = 'splash', beat = 0, lastMs = performance.now();
         let score = 0, combo = 0, maxCombo = 0, hits = 0, totalPerfects = 0, totalMisses = 0, wrongInputs = 0;
         let noteStates = SONG.map(() => 'pending'), performanceLog = [], particles = [], vibs = [0,0,0,0];
         let lastKeyTime = {};
+        let freePlayPulse = null;
+        let freePlayMessageUntil = 0;
         let W, H, neckX, neckY, neckW, neckH, fretW, stringY;
 
+        // ADDED 2026-04-17: Web Serial state for Arduino input
+        let serialPort = null;
+        let serialReader = null;
+        let serialKeepReading = false;
+
+        function setSerialStatus(text, ok = false) {
+            serialStatusEl.textContent = text;
+            serialStatusEl.style.color = ok ? 'rgba(110,231,183,0.95)' : 'rgba(255,255,255,0.55)';
+        }
+
+        function setHUDForMode() {
+            if (phase === 'freeplay') {
+                scoreNumEl.style.display = 'none';
+                comboWrap.style.opacity = 0;
+            } else {
+                scoreNumEl.style.display = '';
+            }
+        }
+
+        // ADDED 2026-04-17: Connect to Arduino over Web Serial
+        async function connectArduino() {
+            if (!('serial' in navigator)) {
+                setSerialStatus('WEB SERIAL NOT SUPPORTED');
+                alert('Use Chrome or Edge. Web Serial is not supported in this browser.');
+                return;
+            }
+
+            try {
+                serialPort = await navigator.serial.requestPort();
+                await serialPort.open({ baudRate: 9600 });
+                serialKeepReading = true;
+                setSerialStatus('ARDUINO CONNECTED', true);
+                readArduinoSerial();
+            } catch (err) {
+                console.error('Arduino connection failed:', err);
+                setSerialStatus('ARDUINO CONNECTION FAILED');
+            }
+        }
+
+        // ADDED 2026-04-17: Read incoming Arduino serial lines and map them to handleInput(sid, fret)
+        async function readArduinoSerial() {
+            if (!serialPort) return;
+
+            const decoder = new TextDecoderStream();
+            const readableClosed = serialPort.readable.pipeTo(decoder.writable);
+            const reader = decoder.readable.getReader();
+            serialReader = reader;
+
+            let buffer = '';
+
+            try {
+                while (serialKeepReading) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+                    if (!value) continue;
+
+                    buffer += value;
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop();
+
+                    for (const rawLine of lines) {
+                        const line = rawLine.trim();
+                        if (!line) continue;
+
+                        console.log('SERIAL:', line);
+
+                        // Accept either "NOTE,2,4" or "2,4"
+                        const parts = line.split(',');
+
+                        if (parts.length === 3 && parts[0] === 'NOTE') {
+                            const sid = Number(parts[1]);
+                            const fret = Number(parts[2]);
+
+                            if (
+                                Number.isInteger(sid) &&
+                                Number.isInteger(fret) &&
+                                sid >= 0 && sid <= 3 &&
+                                fret >= 0 && fret <= 5
+                            ) {
+                                handleInput(sid, fret);
+                            }
+                        } else if (parts.length === 2) {
+                            const sid = Number(parts[0]);
+                            const fret = Number(parts[1]);
+
+                            if (
+                                Number.isInteger(sid) &&
+                                Number.isInteger(fret) &&
+                                sid >= 0 && sid <= 3 &&
+                                fret >= 0 && fret <= 5
+                            ) {
+                                handleInput(sid, fret);
+                            }
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error('Serial read error:', err);
+                setSerialStatus('SERIAL READ ERROR');
+            } finally {
+                try { reader.releaseLock(); } catch(e) {}
+                try { await readableClosed.catch(() => {}); } catch(e) {}
+            }
+        }
 
         function layout() {
             W = canvas.width = window.innerWidth;
@@ -322,12 +471,10 @@
             stringY = STRS.map((_, i) => neckY + (neckH / 5) * (i + 1));
         }
 
-
         const getNotePos = (sid, fret) => ({
             x: neckX + (fret * fretW) + (fretW / 2),
             y: stringY[3 - sid]
         });
-
 
         let aCtx, masterGain;
         async function initAudio() {
@@ -337,7 +484,6 @@
             masterGain.gain.value = 0.4;
             masterGain.connect(aCtx.destination);
         }
-
 
         function playNote(sid, fret) {
             if (!aCtx) return;
@@ -365,7 +511,6 @@
             source.connect(g); g.connect(masterGain); source.start();
             vibs[3 - sid] = 8;
         }
-
 
         function drawNeck() {
             // FIX: Lighter guitar neck
@@ -404,7 +549,6 @@
             });
         }
 
-
         function drawNotes() {
             let activeIndex = -1, minDiff = Infinity;
             SONG.forEach((n, i) => {
@@ -431,7 +575,7 @@
                 }
                 ctx.fillStyle = isActive ? '#000' : `rgba(0, 0, 0, ${alpha})`;
                 ctx.font = `bold ${isActive ? 15 : 13}px monospace`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                ctx.fillText(s.keys[n.f].toUpperCase(), pos.x, pos.y);
+                ctx.fillText(getDisplayNoteName(n.s, n.f), pos.x, pos.y);
                 if (clusterCount > 1) {
                     const bx = pos.x + radius + 10, by = pos.y - radius - 2;
                     ctx.fillStyle = 'rgba(251, 191, 36, 0.9)'; ctx.beginPath(); ctx.roundRect(bx - 12, by - 8, 24, 16, 4); ctx.fill();
@@ -439,7 +583,6 @@
                 }
             });
         }
-
 
         class Particle {
             constructor(x, y, col) {
@@ -452,16 +595,71 @@
         }
 
 
+        function setModeUI(title, subtitle) {
+            modeTitleEl.textContent = title;
+            modeSubtitleEl.textContent = subtitle;
+        }
+
+        function triggerFreePlayFeedback(sid, fret) {
+            const noteName = getDisplayNoteName(sid, fret);
+            const pos = getNotePos(sid, fret);
+            const s = STRS.find(st => st.id === sid);
+
+            freeplayNoteEl.textContent = noteName;
+            freeplayDetailEl.textContent = `${s.label} STRING · FRET ${fret}`;
+            freeplayReadoutEl.style.opacity = '1';
+            freePlayMessageUntil = performance.now() + 1200;
+            freePlayPulse = { sid, fret, life: 1.0 };
+
+            for (let i = 0; i < 12; i++) particles.push(new Particle(pos.x, pos.y, s.rgb));
+        }
+
+        function drawFreePlayPulse() {
+            if (!freePlayPulse || freePlayPulse.life <= 0) return;
+            const pos = getNotePos(freePlayPulse.sid, freePlayPulse.fret);
+            const s = STRS.find(st => st.id === freePlayPulse.sid);
+            const noteName = getDisplayNoteName(freePlayPulse.sid, freePlayPulse.fret);
+            const radius = 28;
+            const pulseRadius = radius + (1 - freePlayPulse.life) * 26;
+
+            ctx.strokeStyle = `rgba(${s.rgb}, ${0.75 * freePlayPulse.life})`;
+            ctx.lineWidth = 5 * freePlayPulse.life + 1;
+            ctx.beginPath();
+            ctx.arc(pos.x, pos.y, pulseRadius, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.fillStyle = s.col;
+            ctx.beginPath();
+            ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = `rgba(255,255,255,${0.95 * freePlayPulse.life})`;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(pos.x, pos.y, radius - 5, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.fillStyle = '#000';
+            ctx.font = 'bold 15px monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(noteName, pos.x, pos.y);
+        }
+
         function handleInput(sid, fret) {
-            if (phase !== 'playing') return;
+            if (phase !== 'playing' && phase !== 'freeplay') return;
            
             const now = Date.now();
             const keyId = `${sid}-${fret}`;
             if (lastKeyTime[keyId] && now - lastKeyTime[keyId] < INPUT_DEBOUNCE) return;
             lastKeyTime[keyId] = now;
 
-
             playNote(sid, fret);
+
+            if (phase === 'freeplay') {
+                triggerFreePlayFeedback(sid, fret);
+                return;
+            }
            
             // FIX 1: Robust repeated-note logic (signed offset in beats: (+) late, (-) early)
             let best = -1;
@@ -473,7 +671,6 @@
                     best = i; break; // Earliest eligible note found
                 }
             }
-
 
             if (best >= 0) {
                 const diff = Math.abs(SONG[best].b - beat);
@@ -495,13 +692,11 @@
             }
         }
 
-
         function updateHUD() {
             scoreEl.textContent = score.toString().padStart(6, '0');
             comboEl.textContent = '×' + combo;
             comboWrap.style.opacity = combo > 0 ? 1 : 0;
         }
-
 
         function checkMisses() {
             SONG.forEach((n, i) => {
@@ -517,42 +712,58 @@
             });
         }
 
-
         async function saveScore(name) {
-            // FIX 3: Robust guard for Firebase service availability
-            if (!user || !db || !auth) return;
             try {
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard'), {
-                    name, score, accuracy: Math.round((hits / SONG.length) * 100), timestamp: Date.now()
+                const key = 'virtuoso-session-leaderboard';
+                const existing = sessionStorage.getItem(key);
+                let data = existing ? JSON.parse(existing) : [];
+
+                data.push({
+                    name,
+                    score,
+                    accuracy: Math.round((hits / SONG.length) * 100),
+                    timestamp: Date.now()
                 });
-                await loadLeaderboard();
-            } catch (e) {}
-        }
 
-
-        async function loadLeaderboard() {
-            if (!db) {
-                document.getElementById('leaderboard-list').innerHTML = '<p style="opacity:0.5;font-size:0.7rem;">OFFLINE MODE</p>';
-                return;
-            }
-            const listEl = document.getElementById('leaderboard-list');
-            try {
-                const q = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
-                const snap = await getDocs(q);
-                let data = [];
-                snap.forEach(doc => data.push(doc.data()));
                 data.sort((a, b) => b.score - a.score);
                 data = data.slice(0, 5);
+
+                sessionStorage.setItem(key, JSON.stringify(data));
+                loadLeaderboard();
+            } catch (e) {
+                console.error('Session leaderboard save error:', e);
+            }
+        }
+
+        async function loadLeaderboard() {
+            const listEl = document.getElementById('leaderboard-list');
+
+            try {
+                const key = 'virtuoso-session-leaderboard';
+                const existing = sessionStorage.getItem(key);
+                let data = existing ? JSON.parse(existing) : [];
+
+                data.sort((a, b) => b.score - a.score);
+                data = data.slice(0, 5);
+
                 const pName = nameInput.value.trim();
+
+                if (!data.length) {
+                    listEl.innerHTML = '<p style="opacity:0.5;font-size:0.7rem;">NO SCORES YET THIS SESSION</p>';
+                    return;
+                }
+
                 listEl.innerHTML = data.map((d, i) => `
                     <div class="lb-row ${d.name === pName ? 'active' : ''}">
                         <span>#${i+1} ${d.name}</span>
                         <span style="font-family:JetBrains Mono">${d.score.toLocaleString()}</span>
                     </div>
                 `).join('');
-            } catch (e) { listEl.innerHTML = '<p>Error loading rankings.</p>'; }
+            } catch (e) {
+                console.error('Session leaderboard load error:', e);
+                listEl.innerHTML = '<p>Error loading rankings.</p>';
+            }
         }
-
 
         function analyzeSession(name, noteAcc, inputAcc) {
             const insightList = document.getElementById('insight-list');
@@ -571,14 +782,12 @@
             const worstString = stringStats.sort((a, b) => a.acc - b.acc)[0];
             const bestString = stringStats.sort((a, b) => b.acc - a.acc)[0];
 
-
             let rank = 'C', coachMsg = "";
            
             if (noteAcc >= 98 && inputAcc >= 95) rank = 'S';
             else if (noteAcc >= 85 && inputAcc >= 80) rank = 'A';
             else if (noteAcc >= 70 || inputAcc >= 60) rank = 'B';
             else rank = 'C';
-
 
             if (rank === 'S') coachMsg = `"${name}, that was absolutely flawless. Your hands are moving with surgical precision."`;
             else if (noteAcc > 90 && inputAcc < 70) coachMsg = `"${name}, you hit almost everything, but your fingerwork is a bit noisy. Focus on 'one press, one note' precision."`;
@@ -587,12 +796,10 @@
             else if (rank === 'B') coachMsg = `"${name}, you're making great progress. Your placement is steady, just work on those quicker transitions."`;
             else coachMsg = `"${name}, every master starts somewhere. Let's focus on hitting the big notes first and cleaning up the technique later."`;
 
-
             if (secondHalfMisses < firstHalfMisses && noteAcc < 90) coachMsg += " I noticed you settled into a much better groove in the second half.";
            
             commentBox.textContent = coachMsg;
             document.getElementById('result-rank').textContent = rank;
-
 
             document.getElementById('m-note-acc').textContent = noteAcc + '%';
             document.getElementById('m-input-acc').textContent = inputAcc + '%';
@@ -609,12 +816,10 @@
                 insightList.appendChild(div);
             };
 
-
             if (inputAcc > 90) addInsight("Surgical finger placement.", true);
             if (avgTiming < 0.08) addInsight("Pro-level rhythmic timing.", true);
             if (firstHalfMisses === 0) addInsight("Perfect confidence in the intro.", true);
             if (bestString.acc > 0.95 && hits > 10) addInsight(`Dominating the ${STRS.find(s=>s.id===bestString.id).label} string.`, true);
-
 
             if (wrongInputs > hits * 0.3) addInsight("Try to minimize stray inputs.", false);
             if (secondHalfMisses > firstHalfMisses + 4) addInsight("Stay focused until the final bar.", false);
@@ -623,10 +828,27 @@
         }
 
 
+        function startFreePlay() {
+            phase = 'freeplay';
+            beat = 0; score = 0; combo = 0; maxCombo = 0; hits = 0; totalPerfects = 0; totalMisses = 0; wrongInputs = 0;
+            noteStates = SONG.map(() => 'pending'); performanceLog = []; lastKeyTime = {};
+            freePlayPulse = null;
+            freePlayMessageUntil = 0;
+            freeplayReadoutEl.style.opacity = '0';
+            updateHUD();
+            setModeUI('Free Play', 'PLAY ANY NOTE');
+            scoreEl.style.display = 'none';
+            comboWrap.style.opacity = 0;
+            document.getElementById('home-btn').style.display = 'block';
+            splashEl.classList.add('hidden');
+            lastMs = performance.now();
+        }
+
         function startCountdown() {
             phase = 'countdown';
             beat = -1.5; score = 0; combo = 0; maxCombo = 0; hits = 0; totalPerfects = 0; totalMisses = 0; wrongInputs = 0;
             noteStates = SONG.map(() => 'pending'); performanceLog = []; lastKeyTime = {};
+            document.getElementById('home-btn').style.display = 'none';
             updateHUD();
             let n = 3; cdEl.style.opacity = '1';
             const tick = () => {
@@ -634,13 +856,12 @@
                 else {
                     cdEl.textContent = 'GO!';
                     setTimeout(() => {
-                        cdEl.style.opacity = '0'; phase = 'playing'; lastMs = performance.now(); beat = 0;
+                        cdEl.style.opacity = '0'; phase = 'playing'; document.getElementById('home-btn').style.display = 'block'; lastMs = performance.now(); beat = 0;
                     }, 500);
                 }
             };
             tick();
         }
-
 
         function endGame() {
             phase = 'results';
@@ -650,14 +871,12 @@
             const totalPresses = hits + wrongInputs;
             const inputAcc = Math.round((hits / (totalPresses || 1)) * 100);
 
-
             document.getElementById('result-name').textContent = `${name.toUpperCase()}'S PERFORMANCE`;
             analyzeSession(name, noteAcc, inputAcc);
             saveScore(name);
-            if (!db) loadLeaderboard();
+            document.getElementById('home-btn').style.display = 'block';
             resultEl.classList.remove('hidden');
         }
-
 
         function loop(ms) {
             const dt = (ms - lastMs) / 1000;
@@ -666,36 +885,81 @@
                 beat += dt * (72/60);
                 checkMisses();
                 if (beat > SONG[SONG.length-1].b + 2.5) endGame();
+            } else if (phase === 'freeplay') {
+                if (freePlayPulse) {
+                    freePlayPulse.life -= 0.03;
+                    if (freePlayPulse.life <= 0) freePlayPulse = null;
+                }
+                if (performance.now() > freePlayMessageUntil) {
+                    freeplayReadoutEl.style.opacity = '0';
+                }
             }
             ctx.clearRect(0,0,W,H);
-            drawNeck(); drawNotes();
+            drawNeck();
+            if (phase === 'playing') drawNotes();
+            if (phase === 'freeplay') drawFreePlayPulse();
             particles.forEach((p, i) => { p.update(); p.draw(); if (p.life <= 0) particles.splice(i, 1); });
             vibs = vibs.map(v => v * 0.85);
             requestAnimationFrame(loop);
         }
-
-
-        window.addEventListener('keydown', e => {
-            const k = e.key.toLowerCase();
-            if (!e.repeat && KEYMAP[k]) handleInput(KEYMAP[k].sid, KEYMAP[k].fret);
-        });
        
-        document.getElementById('start-btn').onclick = async () => {
-            if (!nameInput.value.trim()) { nameInput.style.borderColor = '#ef4444'; return; }
-            await initAudio(); splashEl.classList.add('hidden'); startCountdown();
+        // ADDED 2026-04-17: Connect button for Arduino serial
+        document.getElementById('connect-btn').onclick = async () => {
+            await connectArduino();
         };
 
+        document.getElementById('start-btn').onclick = async () => {
+            if (!nameInput.value.trim()) { nameInput.style.borderColor = '#ef4444'; return; }
+            await initAudio();
+            setModeUI('Ode to Joy', 'PLACEMENT TRAINING');
+            scoreEl.style.display = 'block';
+            freeplayReadoutEl.style.opacity = '0';
+            setHUDForMode();
+            splashEl.classList.add('hidden');
+            startCountdown();
+        };
+
+        document.getElementById('free-play-btn').onclick = async () => {
+            await initAudio();
+            startFreePlay();
+        };
+
+        document.getElementById('home-btn').onclick = () => {
+            phase = 'splash';
+            splashEl.classList.remove('hidden');
+            resultEl.classList.add('hidden');
+            freeplayReadoutEl.style.opacity = '0';
+            score = 0;
+            combo = 0;
+            maxCombo = 0;
+            hits = 0;
+            totalPerfects = 0;
+            totalMisses = 0;
+            wrongInputs = 0;
+            noteStates = SONG.map(() => 'pending');
+            performanceLog = [];
+            particles = [];
+            vibs = [0,0,0,0];
+            freePlayPulse = null;
+            freePlayMessageUntil = 0;
+            updateHUD();
+            document.getElementById('home-btn').style.display = 'none';
+            setModeUI('Ode to Joy', 'PLACEMENT TRAINING');
+        };
 
         document.getElementById('retry-btn').onclick = () => {
             resultEl.classList.add('hidden');
             splashEl.classList.remove('hidden');
+            scoreEl.style.display = 'block';
             nameInput.value = '';
             nameInput.style.borderColor = 'rgba(255,255,255,0.1)';
+            freeplayReadoutEl.style.opacity = '0';
+            document.getElementById('home-btn').style.display = 'none';
+            setModeUI('Ode to Joy', 'PLACEMENT TRAINING');
         };
 
-
         window.addEventListener('resize', layout);
-        layout(); requestAnimationFrame(loop);
+        layout(); setHUDForMode(); requestAnimationFrame(loop);
     </script>
 </body>
 </html>
