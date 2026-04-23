@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virtuoso: Hardware Trainer - Iris Mode</title>
+    <title>Virtuoso: Hardware Trainer - Dear Maria Mode</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        :root { --gold: #fbbf24; --amber: #f59e0b; --bg: #0c0c0e; --neck: #6b4a34; }
+        /* Shifted theme to a grittier pop-punk green/teal */
+        :root { --gold: #2dd4bf; --amber: #0d9488; --bg: #0c0e0c; --neck: #1a1a1a; }
         body {
             font-family: 'Barlow Condensed', sans-serif;
             background: var(--bg);
@@ -27,7 +28,7 @@
             transition: opacity .5s ease, visibility .5s;
         }
         .screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        #splash { background: radial-gradient(circle at center, #2a1f18 0%, #000 100%); }
+        #splash { background: radial-gradient(circle at center, #111827 0%, #000 100%); }
         #result { background: rgba(0, 0, 0, .98); backdrop-filter: blur(30px); overflow-y: auto; padding: 2rem 0; }
         
         .glass {
@@ -60,21 +61,21 @@
         .btn {
             font-family: 'Barlow Condensed', sans-serif;
             font-weight: 700; font-size: 1rem; letter-spacing: .2em; text-transform: uppercase;
-            color: #000; background: linear-gradient(135deg, #fcd34d, #d97706);
+            color: #000; background: linear-gradient(135deg, #2dd4bf, #0f766e);
             border: none; border-radius: 999px; padding: 1.1rem 3.5rem; cursor: pointer;
-            box-shadow: 0 8px 32px rgba(245, 158, 11, .3);
+            box-shadow: 0 8px 32px rgba(45, 212, 191, .3);
             transition: all .2s;
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 48px rgba(245, 158, 11, .5); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 48px rgba(45, 212, 191, .5); }
         
         #splash-title {
             font-family: 'Bebas Neue', sans-serif;
             font-size: clamp(4rem, 12vw, 8rem); letter-spacing: .05em;
-            background: linear-gradient(to bottom, #fff, #b5835a);
+            background: linear-gradient(to bottom, #fff, #2dd4bf);
             -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
         }
-        #splash-sub { color: #b5835a; letter-spacing: 0.6em; text-transform: uppercase; font-size: 0.8rem; margin-bottom: 2rem; }
+        #splash-sub { color: #2dd4bf; letter-spacing: 0.6em; text-transform: uppercase; font-size: 0.8rem; margin-bottom: 2rem; }
 
         #serial-status {
             color: rgba(255,255,255,0.55);
@@ -85,37 +86,20 @@
             min-height: 1em;
         }
 
-        #connect-btn {
-            margin-bottom: 1rem;
-        }
+        #connect-btn { margin-bottom: 1rem; }
 
         #home-btn {
-            position: fixed;
-            right: 1rem;
-            bottom: 1rem;
-            z-index: 200;
-            padding: 0.35rem 0.7rem;
-            min-width: 0;
-            width: auto;
-            height: auto;
-            border-radius: 999px;
-            border: 1px solid rgba(255,255,255,0.14);
-            background: rgba(12,12,14,0.78);
-            color: #fff;
-            font-family: 'Barlow Condensed', sans-serif;
-            font-weight: 700;
-            font-size: 0.6rem;
-            line-height: 1;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            cursor: pointer;
+            position: fixed; right: 1rem; bottom: 1rem; z-index: 200;
+            padding: 0.35rem 0.7rem; min-width: 0; width: auto; height: auto;
+            border-radius: 999px; border: 1px solid rgba(255,255,255,0.14);
+            background: rgba(12,12,14,0.78); color: #fff;
+            font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+            font-size: 0.6rem; line-height: 1; letter-spacing: 0.12em;
+            text-transform: uppercase; cursor: pointer;
             box-shadow: 0 6px 18px rgba(0,0,0,0.22);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: none;
-            pointer-events: auto;
+            backdrop-filter: blur(8px); display: none; pointer-events: auto;
         }
-        #home-btn:hover { border-color: rgba(251,191,36,0.45); background: rgba(20,20,22,0.88); }
+        #home-btn:hover { border-color: rgba(45,212,191,0.45); background: rgba(20,20,22,0.88); }
 
         #hud { position: fixed; inset: 0; pointer-events: none; z-index: 20; }
         #top-bar { padding: 2rem; display: flex; justify-content: space-between; }
@@ -127,8 +111,7 @@
             position: fixed; bottom: 1.5rem; width: 100%;
             display: flex; justify-content: center; gap: 3rem;
             font-size: 0.65rem; color: rgba(255,255,255,0.4);
-            letter-spacing: 0.2em; text-transform: uppercase;
-            font-weight: 600;
+            letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600;
         }
 
         #countdown {
@@ -138,13 +121,12 @@
 
         .result-header { margin-bottom: 2rem; }
         #result-name { color: var(--gold); font-family: 'Bebas Neue'; font-size: 1.5rem; letter-spacing: 0.1em; display: block; }
-        #result-rank { font-size: 8rem; color: #fff; font-family: 'Bebas Neue'; line-height: 0.9; margin: 0.5rem 0; text-shadow: 0 0 30px rgba(251, 191, 36, 0.3); }
+        #result-rank { font-size: 8rem; color: #fff; font-family: 'Bebas Neue'; line-height: 0.9; margin: 0.5rem 0; text-shadow: 0 0 30px rgba(45, 212, 191, 0.3); }
         #coach-comment { font-size: 1.2rem; line-height: 1.5; color: #e5e7eb; max-width: 550px; margin: 0 auto 2.5rem; font-style: italic; }
 
         .dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; text-align: left; }
         .panel { background: rgba(255,255,255,0.03); border-radius: 1.25rem; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.05); }
         .panel-h { font-family: 'Bebas Neue'; font-size: 1.2rem; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 1rem; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; }
-
         .metric-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.8rem; }
         .metric-lbl { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; }
         .metric-val { font-family: 'JetBrains Mono'; font-size: 1.1rem; color: #fff; }
@@ -154,20 +136,13 @@
         .icon-pos { background: #10b981; box-shadow: 0 0 8px #10b981; }
         .icon-neg { background: #f43f5e; box-shadow: 0 0 8px #f43f5e; }
 
-        .lb-minimal { margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; }
-        .lb-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 0.4rem 0.5rem; border-radius: 4px; }
-        .lb-row:nth-child(even) { background: rgba(255,255,255,0.02); }
-        .lb-row.active { background: rgba(251, 191, 36, 0.1); color: var(--gold); font-weight: 700; }
-
-        @media (max-width: 600px) {
-            .dashboard { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 600px) { .dashboard { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <div id="splash" class="screen">
         <h1 id="splash-title">VIRTUOSO</h1>
-        <p id="splash-sub">Hardware Placement Trainer</p>
+        <p id="splash-sub">Distortion / Speed Lead Trainer</p>
         <input type="text" id="player-name" class="input-box" placeholder="ENTER YOUR NAME" maxlength="12">
         <div id="serial-status">ARDUINO NOT CONNECTED</div>
         <button class="btn" id="connect-btn">Connect Arduino</button>
@@ -186,33 +161,15 @@
             <div class="dashboard">
                 <div class="panel">
                     <h3 class="panel-h">Performance Summary</h3>
-                    <div class="metric-row">
-                        <span class="metric-lbl">Notes Hit</span>
-                        <span class="metric-val" id="m-note-acc">0%</span>
-                    </div>
-                    <div class="metric-row" title="Input cleanliness: Correct hits vs total physical inputs.">
-                        <span class="metric-lbl">Cleanliness</span>
-                        <span class="metric-val" id="m-input-acc">0%</span>
-                    </div>
-                    <div class="metric-row">
-                        <span class="metric-lbl">Max Streak</span>
-                        <span class="metric-val" id="m-streak">0</span>
-                    </div>
-                    <div class="metric-row">
-                        <span class="metric-lbl">Perfect Timing</span>
-                        <span class="metric-val" id="m-perfect">0</span>
-                    </div>
+                    <div class="metric-row"><span class="metric-lbl">Notes Hit</span><span class="metric-val" id="m-note-acc">0%</span></div>
+                    <div class="metric-row"><span class="metric-lbl">Cleanliness</span><span class="metric-val" id="m-input-acc">0%</span></div>
+                    <div class="metric-row"><span class="metric-lbl">Max Streak</span><span class="metric-val" id="m-streak">0</span></div>
+                    <div class="metric-row"><span class="metric-lbl">Perfect Timing</span><span class="metric-val" id="m-perfect">0</span></div>
                 </div>
-
                 <div class="panel">
                     <h3 class="panel-h">Coach's Focus Areas</h3>
                     <div id="insight-list"></div>
                 </div>
-            </div>
-
-            <div class="lb-minimal">
-                <h3 class="panel-h" style="border: none; text-align: center;">Leaderboard</h3>
-                <div id="leaderboard-list"></div>
             </div>
             
             <button class="btn" id="retry-btn" style="width: 100%; margin-top: 2rem;">New Practice Session</button>
@@ -222,7 +179,7 @@
     <div id="countdown"></div>
 
     <div id="freeplay-readout" style="position: fixed; left: 50%; top: 28%; transform: translateX(-50%); z-index: 30; text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.2s;">
-        <div id="freeplay-note" style="font-family: 'Bebas Neue', sans-serif; font-size: 5rem; line-height: 0.9; color: #fff; text-shadow: 0 0 30px rgba(251, 191, 36, 0.25);">C</div>
+        <div id="freeplay-note" style="font-family: 'Bebas Neue', sans-serif; font-size: 5rem; line-height: 0.9; color: #fff; text-shadow: 0 0 30px rgba(45, 212, 191, 0.25);">C</div>
         <div id="freeplay-detail" style="font-size: 0.85rem; letter-spacing: 0.25em; opacity: 0.6;">STRING / FRET</div>
     </div>
 
@@ -231,8 +188,8 @@
     <div id="hud">
         <div id="top-bar">
             <div>
-                <h2 id="mode-title" style="font-family: 'Bebas Neue'; font-size: 1.8rem;">Iris (Intro)</h2>
-                <p id="mode-subtitle" style="font-size: 0.7rem; letter-spacing: 0.2em; opacity: 0.5;">CHORDAL POLYPHONY TRAINING</p>
+                <h2 id="mode-title" style="font-family: 'Bebas Neue'; font-size: 1.8rem;">Dear Maria</h2>
+                <p id="mode-subtitle" style="font-size: 0.7rem; letter-spacing: 0.2em; opacity: 0.5;">SPEED LEAD & DISTORTION</p>
             </div>
             <div id="score-num">000000</div>
         </div>
@@ -244,19 +201,15 @@
     </div>
 
     <div id="key-guide">
-        <span>S4: D STRING</span>
-        <span>S3: D STRING</span>
+        <span>S4: E STRING</span>
+        <span>S3: A STRING</span>
         <span>S2: D STRING</span>
-        <span>S1: B STRING</span>
+        <span>S1: G STRING</span>
     </div>
 
     <canvas id="c"></canvas>
 
     <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
-
         'use strict';
         const canvas = document.getElementById('c');
         const ctx = canvas.getContext('2d');
@@ -266,51 +219,27 @@
         const scoreEl = document.getElementById('score-num');
         const comboEl = document.getElementById('combo-num');
         const comboWrap = document.getElementById('combo-wrap');
-        const nameInput = document.getElementById('player-name');
         const serialStatusEl = document.getElementById('serial-status');
-        const modeTitleEl = document.getElementById('mode-title');
-        const modeSubtitleEl = document.getElementById('mode-subtitle');
         const freeplayReadoutEl = document.getElementById('freeplay-readout');
         const freeplayNoteEl = document.getElementById('freeplay-note');
         const freeplayDetailEl = document.getElementById('freeplay-detail');
-        const topBarEl = document.getElementById('top-bar');
         const scoreNumEl = document.getElementById('score-num');
 
-        // Safe Firebase initialization guard
-        let firebaseConfig = null;
-        try { firebaseConfig = (typeof __firebase_config !== 'undefined' && __firebase_config) ? JSON.parse(__firebase_config) : null; } catch(e) {}
-        const app = firebaseConfig ? initializeApp(firebaseConfig) : null;
-        const auth = app ? getAuth(app) : null;
-        const db = app ? getFirestore(app) : null;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'virtuoso-arduino';
+        // FAST TEMPO FOR POP-PUNK
+        const BPM = 155; 
 
         // Timing constants (units: beats)
         const EARLY_WINDOW = 0.3;
-        const LATE_WINDOW = 0.45;
+        const LATE_WINDOW = 0.3; // Tighter window for faster song
         const PERFECT_WINDOW = 0.12;
         const INPUT_DEBOUNCE = 50;
 
-        let user = null;
-        if (auth) {
-            onAuthStateChanged(auth, (u) => { user = u; });
-        }
-
-        const initAuth = async () => {
-          if (!auth) return;
-          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-            await signInWithCustomToken(auth, __initial_auth_token);
-          } else {
-            await signInAnonymously(auth);
-          }
-        };
-        initAuth();
-
-        // UPDATED: "Iris" Custom Alt-Tuning (B-D-D-D)
+        // STANDARD BASS / LOWER GUITAR TUNING (E, A, D, G)
         const STRS = [
-            { id: 3, label: 'D', freq: 293.66, col: '#c4b5fd', rgb: '196,181,253', keys: ['6','1','2','3','4','5'] },
-            { id: 2, label: 'D', freq: 293.66, col: '#6ee7b7', rgb: '110,231,183', keys: ['y','q','w','e','r','t'] },
-            { id: 1, label: 'D', freq: 293.66, col: '#fcd34d', rgb: '252,211,77',  keys: ['h','a','s','d','f','g'] },
-            { id: 0, label: 'B', freq: 246.94, col: '#fca5a5', rgb: '252,165,165', keys: ['n','z','x','c','v','b'] }
+            { id: 3, label: 'E', freq: 164.81, col: '#fca5a5', rgb: '252,165,165', keys: ['6','1','2','3','4','5'] },
+            { id: 2, label: 'A', freq: 220.00, col: '#fcd34d', rgb: '252,211,77', keys: ['y','q','w','e','r','t'] },
+            { id: 1, label: 'D', freq: 293.66, col: '#6ee7b7', rgb: '110,231,183',  keys: ['h','a','s','d','f','g'] },
+            { id: 0, label: 'G', freq: 392.00, col: '#c4b5fd', rgb: '196,181,253', keys: ['n','z','x','c','v','b'] }
         ];
 
         const KEYMAP = {};
@@ -318,27 +247,46 @@
 
         const BEAT_OFFSET = 1.0;
         
-        // UPDATED: Iris Intro Chords 
+        // DEAR MARIA INTRO RIFF (Mapped to frets 0-5)
+        // Riff Notes: A, C#, D, C#, A, A, C#, D, C#, E, D, C#
         const RAW_SONG = [
-            // Bm7-ish Chord
-            {s:0, f:4, b:0}, {s:1, f:2, b:0}, {s:2, f:0, b:0},
-            {s:2, f:0, b:1}, {s:3, f:2, b:1.5},
-            // Asus4-ish Chord
-            {s:0, f:2, b:2}, {s:1, f:2, b:2}, {s:2, f:0, b:2},
-            {s:2, f:0, b:3}, {s:3, f:0, b:3.5},
-            // G Chord
-            {s:0, f:0, b:4}, {s:1, f:2, b:4}, {s:2, f:3, b:4}
+            {s:2, f:0, b:0.0}, // A
+            {s:2, f:4, b:0.5}, // C#
+            {s:1, f:0, b:1.0}, // D
+            {s:2, f:4, b:1.5}, // C#
+            // pause
+            {s:2, f:0, b:2.5}, // A
+            {s:2, f:0, b:3.0}, // A
+            {s:2, f:4, b:3.5}, // C#
+            {s:1, f:0, b:4.0}, // D
+            {s:2, f:4, b:4.5}, // C#
+            {s:1, f:2, b:5.0}, // E
+            {s:1, f:0, b:5.5}, // D
+            {s:2, f:4, b:6.0}, // C#
+            
+            // Repeat
+            {s:2, f:0, b:7.0}, // A
+            {s:2, f:4, b:7.5}, // C#
+            {s:1, f:0, b:8.0}, // D
+            {s:2, f:4, b:8.5}, // C#
+            {s:2, f:0, b:9.5}, // A
+            {s:2, f:0, b:10.0}, // A
+            {s:2, f:4, b:10.5}, // C#
+            {s:1, f:0, b:11.0}, // D
+            {s:2, f:4, b:11.5}, // C#
+            {s:1, f:2, b:12.0}, // E
+            {s:1, f:0, b:12.5}, // D
+            {s:2, f:4, b:13.0}  // C#
         ];
 
         const SONG = RAW_SONG.map(n => ({ ...n, b: n.b + BEAT_OFFSET }));
 
-        // Convert string + fret into displayed musical note names
         function getDisplayNoteName(sid, fret) {
             const NOTE_NAMES = {
-                0: ['B', 'C', 'C#', 'D', 'D#', 'E'],
+                3: ['E', 'F', 'F#', 'G', 'G#', 'A'],
+                2: ['A', 'A#', 'B', 'C', 'C#', 'D'],
                 1: ['D', 'D#', 'E', 'F', 'F#', 'G'],
-                2: ['D', 'D#', 'E', 'F', 'F#', 'G'],
-                3: ['D', 'D#', 'E', 'F', 'F#', 'G']
+                0: ['G', 'G#', 'A', 'A#', 'B', 'C']
             };
             return (NOTE_NAMES[sid] && NOTE_NAMES[sid][fret]) ? NOTE_NAMES[sid][fret] : '';
         }
@@ -350,26 +298,13 @@
         let freePlayPulse = null;
         let freePlayMessageUntil = 0;
         let W, H, neckX, neckY, neckW, neckH, fretW, stringY;
-        
-        // ADDED: Track the anchor finger for Last Fret optimization visual
         let lastFretPosition = 0;
 
-        let serialPort = null;
-        let serialReader = null;
-        let serialKeepReading = false;
+        let serialPort = null, serialReader = null, serialKeepReading = false;
 
         function setSerialStatus(text, ok = false) {
             serialStatusEl.textContent = text;
-            serialStatusEl.style.color = ok ? 'rgba(110,231,183,0.95)' : 'rgba(255,255,255,0.55)';
-        }
-
-        function setHUDForMode() {
-            if (phase === 'freeplay') {
-                scoreNumEl.style.display = 'none';
-                comboWrap.style.opacity = 0;
-            } else {
-                scoreNumEl.style.display = '';
-            }
+            serialStatusEl.style.color = ok ? 'rgba(45,212,191,0.95)' : 'rgba(255,255,255,0.55)';
         }
 
         async function connectArduino() {
@@ -378,7 +313,6 @@
                 alert('Use Chrome or Edge. Web Serial is not supported in this browser.');
                 return;
             }
-
             try {
                 serialPort = await navigator.serial.requestPort();
                 await serialPort.open({ baudRate: 9600 });
@@ -393,12 +327,10 @@
 
         async function readArduinoSerial() {
             if (!serialPort) return;
-
             const decoder = new TextDecoderStream();
             const readableClosed = serialPort.readable.pipeTo(decoder.writable);
             const reader = decoder.readable.getReader();
             serialReader = reader;
-
             let buffer = '';
 
             try {
@@ -406,7 +338,6 @@
                     const { value, done } = await reader.read();
                     if (done) break;
                     if (!value) continue;
-
                     buffer += value;
                     const lines = buffer.split('\n');
                     buffer = lines.pop();
@@ -414,22 +345,10 @@
                     for (const rawLine of lines) {
                         const line = rawLine.trim();
                         if (!line) continue;
-
-                        console.log('SERIAL:', line);
-
                         const parts = line.split(',');
-
-                        if (parts.length === 3 && parts[0] === 'NOTE') {
-                            const sid = Number(parts[1]);
-                            const fret = Number(parts[2]);
-
-                            if (Number.isInteger(sid) && Number.isInteger(fret) && sid >= 0 && sid <= 3 && fret >= 0 && fret <= 5) {
-                                handleInput(sid, fret);
-                            }
-                        } else if (parts.length === 2) {
-                            const sid = Number(parts[0]);
-                            const fret = Number(parts[1]);
-
+                        if (parts.length >= 2) {
+                            const sid = Number(parts[parts.length === 3 ? 1 : 0]);
+                            const fret = Number(parts[parts.length === 3 ? 2 : 1]);
                             if (Number.isInteger(sid) && Number.isInteger(fret) && sid >= 0 && sid <= 3 && fret >= 0 && fret <= 5) {
                                 handleInput(sid, fret);
                             }
@@ -437,11 +356,9 @@
                     }
                 }
             } catch (err) {
-                console.error('Serial read error:', err);
                 setSerialStatus('SERIAL READ ERROR');
             } finally {
                 try { reader.releaseLock(); } catch(e) {}
-                try { await readableClosed.catch(() => {}); } catch(e) {}
             }
         }
 
@@ -461,22 +378,52 @@
             y: stringY[3 - sid]
         });
 
-        let aCtx, masterGain;
+        // AUDIO ENGINE: OVERDRIVE & DISTORTION
+        let aCtx, masterGain, distortionNode, toneFilter;
+
+        // Creates a rough math curve for the distortion clipping effect
+        function makeDistortionCurve(amount) {
+            const k = typeof amount === 'number' ? amount : 50,
+            n_samples = 44100,
+            curve = new Float32Array(n_samples),
+            deg = Math.PI / 180;
+            for (let i = 0; i < n_samples; ++i) {
+                const x = i * 2 / n_samples - 1;
+                curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
+            }
+            return curve;
+        }
+
         async function initAudio() {
             if (aCtx) return;
             aCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // 1. Distortion Node (The "Pedal")
+            distortionNode = aCtx.createWaveShaper();
+            distortionNode.curve = makeDistortionCurve(400); // 400 is heavy overdrive
+            distortionNode.oversample = '4x';
+            
+            // 2. Amp Cab Filter (Rolls off the ugly digital highs)
+            toneFilter = aCtx.createBiquadFilter();
+            toneFilter.type = "lowpass";
+            toneFilter.frequency.value = 3500; 
+
+            // 3. Master Volume
             masterGain = aCtx.createGain();
-            masterGain.gain.value = 0.4;
+            masterGain.gain.value = 0.15; // Distortion makes it very loud, turn this down
+
+            // Routing: Note -> Distortion -> Filter -> Master -> Speakers
+            distortionNode.connect(toneFilter);
+            toneFilter.connect(masterGain);
             masterGain.connect(aCtx.destination);
         }
 
-        // UPDATED: Modified playNote to sustain out acoustic chords like Iris
         function playNote(sid, fret) {
             if (!aCtx) return;
             const s = STRS.find(x => x.id === sid);
             const freq = s.freq * Math.pow(2, fret / 12);
             
-            const duration = 2.0; 
+            const duration = 1.0; // Shorter sustain for punchy electric riffs
             const sampleRate = aCtx.sampleRate;
             const length = Math.floor(duration * sampleRate);
             const buffer = aCtx.createBuffer(1, length, sampleRate);
@@ -484,36 +431,43 @@
             const period = Math.floor(sampleRate / freq);
             const delayLine = new Float32Array(period);
             
-            for (let i = 0; i < period; i++) delayLine[i] = Math.random() * 2 - 1;
+            // Harder noise burst for pick attack
+            for (let i = 0; i < period; i++) delayLine[i] = (Math.random() * 2 - 1) * 1.5;
             let p = 0;
             for (let i = 0; i < length; i++) {
                 const x0 = delayLine[p], x1 = delayLine[(p + 1) % period];
-                const val = 0.5 * (x0 + x1) * 0.992; 
+                const val = 0.5 * (x0 + x1) * 0.985; // Faster decay (palm mute feel)
                 data[i] = x0; delayLine[p] = val; p = (p + 1) % period;
             }
 
             const source = aCtx.createBufferSource();
             source.buffer = buffer;
             const g = aCtx.createGain();
-            g.gain.setValueAtTime(0.5, aCtx.currentTime);
+            
+            // Shape the volume envelope
+            g.gain.setValueAtTime(0.8, aCtx.currentTime);
             g.gain.exponentialRampToValueAtTime(0.001, aCtx.currentTime + duration);
-            source.connect(g); g.connect(masterGain); source.start();
-            vibs[3 - sid] = 12;
+            
+            // Connect to our Overdrive pedal setup!
+            source.connect(g); 
+            g.connect(distortionNode); 
+            source.start();
+            
+            vibs[3 - sid] = 15;
         }
 
         function drawNeck() {
-            ctx.fillStyle = '#6b4a34';
+            // Darker, black/grey fretboard for the electric theme
+            ctx.fillStyle = '#111';
             ctx.fillRect(neckX, neckY, neckW, neckH);
-            ctx.fillStyle = 'rgba(0,0,0,0.25)';
+            ctx.fillStyle = 'rgba(255,255,255,0.02)';
             ctx.fillRect(neckX, neckY, fretW, neckH);
             
-            // UPDATED: Draw Last Fret Position Reach
             if (lastFretPosition > 0) {
-                ctx.fillStyle = 'rgba(251, 191, 36, 0.07)';
+                ctx.fillStyle = 'rgba(45, 212, 191, 0.05)';
                 const reachStart = neckX + (lastFretPosition * fretW) - (fretW * 0.5);
                 ctx.fillRect(reachStart, neckY, fretW * 4, neckH);
-                
-                ctx.strokeStyle = 'rgba(251, 191, 36, 0.3)';
+                ctx.strokeStyle = 'rgba(45, 212, 191, 0.2)';
                 ctx.setLineDash([5, 5]);
                 ctx.strokeRect(reachStart, neckY, fretW * 4, neckH);
                 ctx.setLineDash([]); 
@@ -523,7 +477,7 @@
                 const x = neckX + i * fretW;
                 const isNut = i === 1;
                 ctx.lineWidth = isNut ? 14 : 6;
-                ctx.strokeStyle = isNut ? '#eee' : '#999';
+                ctx.strokeStyle = isNut ? '#e2e8f0' : '#475569';
                 if (i === 0) { ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 2; }
                 ctx.beginPath(); ctx.moveTo(x, neckY); ctx.lineTo(x, neckY + neckH); ctx.stroke();
                 if (i === 0) {
@@ -538,9 +492,10 @@
             }
             STRS.forEach((s, i) => {
                 const y = stringY[i], v = vibs[i];
-                ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.lineWidth = 2 + i*0.5;
+                ctx.strokeStyle = 'rgba(0,0,0,0.5)'; ctx.lineWidth = 2 + i*0.5;
                 ctx.beginPath(); ctx.moveTo(neckX, y + 2); ctx.lineTo(neckX + neckW, y + 2); ctx.stroke();
-                ctx.strokeStyle = 'rgba(120,120,120,0.9)';
+                // Silver strings
+                ctx.strokeStyle = '#94a3b8';
                 ctx.lineWidth = 1.5 + i*0.2;
                 ctx.beginPath(); ctx.moveTo(neckX, y);
                 if (v > 0.5) for(let x=neckX; x<neckX+neckW; x+=10) ctx.lineTo(x, y + Math.sin(x*0.1) * v);
@@ -560,7 +515,6 @@
                 if (diff < -LATE_WINDOW || diff > 2.5 || noteStates[i] !== 'pending') return;
                 const pos = getNotePos(n.s, n.f), s = STRS.find(st => st.id === n.s), isActive = (i === activeIndex);
                 const alpha = Math.max(0.2, 0.5 - diff * 0.2), radius = isActive ? 28 + Math.sin(Date.now() * 0.01) * 3 : 22;
-                const clusterCount = SONG.filter((other, idx) => noteStates[idx] === 'pending' && Math.abs(other.b - n.b) < 0.2).length;
                 if (diff > 0) {
                     ctx.strokeStyle = `rgba(${isActive ? s.rgb : '120,120,120'}, ${isActive ? 0.8 : 0.2})`;
                     ctx.lineWidth = isActive ? 5 : 2;
@@ -575,11 +529,6 @@
                 ctx.fillStyle = isActive ? '#000' : `rgba(0, 0, 0, ${alpha})`;
                 ctx.font = `bold ${isActive ? 15 : 13}px monospace`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
                 ctx.fillText(getDisplayNoteName(n.s, n.f), pos.x, pos.y);
-                if (clusterCount > 1) {
-                    const bx = pos.x + radius + 10, by = pos.y - radius - 2;
-                    ctx.fillStyle = 'rgba(251, 191, 36, 0.9)'; ctx.beginPath(); ctx.roundRect(bx - 12, by - 8, 24, 16, 4); ctx.fill();
-                    ctx.fillStyle = '#000'; ctx.font = 'bold 10px JetBrains Mono'; ctx.fillText(clusterCount + 'x', bx, by);
-                }
             });
         }
 
@@ -591,11 +540,6 @@
             }
             update() { this.x += this.vx; this.y += this.vy; this.life -= 0.025; }
             draw() { ctx.fillStyle = `rgba(${this.col}, ${this.life})`; ctx.beginPath(); ctx.arc(this.x, this.y, 4, 0, Math.PI*2); ctx.fill(); }
-        }
-
-        function setModeUI(title, subtitle) {
-            modeTitleEl.textContent = title;
-            modeSubtitleEl.textContent = subtitle;
         }
 
         function triggerFreePlayFeedback(sid, fret) {
@@ -623,22 +567,17 @@
             ctx.strokeStyle = `rgba(${s.rgb}, ${0.75 * freePlayPulse.life})`;
             ctx.lineWidth = 5 * freePlayPulse.life + 1;
             ctx.beginPath(); ctx.arc(pos.x, pos.y, pulseRadius, 0, Math.PI * 2); ctx.stroke();
-
             ctx.fillStyle = s.col;
             ctx.beginPath(); ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2); ctx.fill();
-
             ctx.strokeStyle = `rgba(255,255,255,${0.95 * freePlayPulse.life})`;
             ctx.lineWidth = 3;
             ctx.beginPath(); ctx.arc(pos.x, pos.y, radius - 5, 0, Math.PI * 2); ctx.stroke();
-
             ctx.fillStyle = '#000';
             ctx.font = 'bold 15px monospace';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
             ctx.fillText(noteName, pos.x, pos.y);
         }
 
-        // UPDATED: handleInput logic changed to support simultaneous polyphonic hits
         function handleInput(sid, fret) {
             if (phase !== 'playing' && phase !== 'freeplay') return;
             
@@ -649,7 +588,6 @@
 
             playNote(sid, fret);
 
-            // LAST FRET LOGIC: Update hand anchor position
             if (fret > 0) lastFretPosition = fret; 
 
             if (phase === 'freeplay') {
@@ -657,7 +595,6 @@
                 return;
             }
             
-            // CHORD LOGIC: Do not 'break', allow multiple matches in the hit window
             SONG.forEach((n, i) => {
                 if (noteStates[i] !== 'pending' || n.s !== sid || n.f !== fret) return;
                 
@@ -687,7 +624,8 @@
         function updateGame() {
             if (phase === 'playing') {
                 const currentMs = performance.now();
-                beat += (currentMs - lastMs) * (100 / 60000); 
+                // FAST BPM SCALING applied here
+                beat += (currentMs - lastMs) * (BPM / 60000); 
                 lastMs = currentMs;
 
                 let missedAny = false;
@@ -714,9 +652,7 @@
 
                 if (beat > SONG[SONG.length - 1].b + 3) endGame();
             } else if (phase === 'freeplay') {
-                if (performance.now() > freePlayMessageUntil) {
-                    freeplayReadoutEl.style.opacity = '0';
-                }
+                if (performance.now() > freePlayMessageUntil) freeplayReadoutEl.style.opacity = '0';
                 if (freePlayPulse) {
                     freePlayPulse.life -= 0.05;
                     if (freePlayPulse.life <= 0) freePlayPulse = null;
@@ -768,8 +704,8 @@
             await initAudio();
             phase = 'freeplay';
             splashEl.classList.add('hidden');
-            setHUDForMode();
             document.getElementById('home-btn').style.display = 'block';
+            scoreNumEl.style.display = 'none';
         }
 
         function endGame() {
@@ -783,25 +719,15 @@
             document.getElementById('m-streak').textContent = maxCombo;
             document.getElementById('m-perfect').textContent = totalPerfects;
 
-            let rank = 'F', comment = "Keep practicing. Focus on one string at a time.";
-            if (acc >= 95) { rank = 'S'; comment = "Flawless polyphony! Your hand placement is highly efficient."; }
-            else if (acc >= 85) { rank = 'A'; comment = "Great job hitting those chords. Keep working on the perfect timing."; }
-            else if (acc >= 70) { rank = 'B'; comment = "Solid attempt. Watch your chord transitions and last-fret anchoring."; }
-            else if (acc >= 50) { rank = 'C'; comment = "You're getting the shapes, but the rhythm is slipping. Slow down."; }
+            let rank = 'F', comment = "This riff is fast! Start slow and get the fingering down.";
+            if (acc >= 95) { rank = 'S'; comment = "Flawless speed! You nailed the distortion lead."; }
+            else if (acc >= 85) { rank = 'A'; comment = "Great job keeping up with the tempo. Watch those string jumps."; }
+            else if (acc >= 70) { rank = 'B'; comment = "Good attempt. Your fingers need to be quick for pop-punk!"; }
 
             document.getElementById('result-rank').textContent = rank;
             document.getElementById('result-rank').style.color = rank === 'S' || rank === 'A' ? 'var(--gold)' : (rank === 'F' ? '#f43f5e' : '#fff');
             document.getElementById('coach-comment').textContent = `"${comment}"`;
             
-            const insightList = document.getElementById('insight-list');
-            insightList.innerHTML = '';
-            
-            if (inputAcc < 80) insightList.innerHTML += `<div class="insight-item"><div class="insight-icon icon-neg"></div><div><strong>Messy Inputs:</strong> You are triggering strings you shouldn't be. Keep your strumming hand clean.</div></div>`;
-            if (totalMisses > 5) insightList.innerHTML += `<div class="insight-item"><div class="insight-icon icon-neg"></div><div><strong>Dropped Chords:</strong> You missed several clusters entirely. Anticipate the next anchor fret.</div></div>`;
-            if (acc >= 85 && inputAcc >= 90) insightList.innerHTML += `<div class="insight-item"><div class="insight-icon icon-pos"></div><div><strong>Clean Articulation:</strong> Excellent finger control during the 6/8 transitions.</div></div>`;
-            
-            if (insightList.innerHTML === '') insightList.innerHTML = `<div class="insight-item" style="color: rgba(255,255,255,0.5); font-style: italic;">Play a full session to generate insights.</div>`;
-
             resultEl.classList.remove('hidden');
         }
 
@@ -814,24 +740,9 @@
         });
 
         document.getElementById('connect-btn').addEventListener('click', connectArduino);
-        
-        document.getElementById('start-btn').addEventListener('click', () => {
-            const n = nameInput.value.trim();
-            if (n) document.getElementById('result-name').textContent = n.toUpperCase();
-            startGame();
-        });
-
-        document.getElementById('free-play-btn').addEventListener('click', () => {
-            const n = nameInput.value.trim();
-            if (n) document.getElementById('result-name').textContent = n.toUpperCase();
-            startFreePlay();
-        });
-
-        document.getElementById('retry-btn').addEventListener('click', () => {
-            resultEl.classList.add('hidden');
-            startGame();
-        });
-
+        document.getElementById('start-btn').addEventListener('click', startGame);
+        document.getElementById('free-play-btn').addEventListener('click', startFreePlay);
+        document.getElementById('retry-btn').addEventListener('click', () => { resultEl.classList.add('hidden'); startGame(); });
         document.getElementById('home-btn').addEventListener('click', () => {
             phase = 'splash';
             freeplayReadoutEl.style.opacity = '0';
