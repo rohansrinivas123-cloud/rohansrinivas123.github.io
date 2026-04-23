@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virtuoso: Hardware Trainer</title>
+    <title>Virtuoso: Hardware Trainer - Iris Mode</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -20,7 +20,7 @@
             width: 100vw;
         }
         canvas { position: fixed; inset: 0; display: block; z-index: 5; }
-       
+        
         .screen {
             position: fixed; inset: 0; z-index: 100;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -29,7 +29,7 @@
         .screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         #splash { background: radial-gradient(circle at center, #2a1f18 0%, #000 100%); }
         #result { background: rgba(0, 0, 0, .98); backdrop-filter: blur(30px); overflow-y: auto; padding: 2rem 0; }
-       
+        
         .glass {
             background: rgba(255, 255, 255, .02);
             border: 1px solid rgba(255, 255, 255, .08);
@@ -40,7 +40,7 @@
             width: 95%;
             margin: auto;
         }
-       
+        
         .input-box {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
@@ -66,7 +66,7 @@
             transition: all .2s;
         }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 48px rgba(245, 158, 11, .5); }
-       
+        
         #splash-title {
             font-family: 'Bebas Neue', sans-serif;
             font-size: clamp(4rem, 12vw, 8rem); letter-spacing: .05em;
@@ -182,7 +182,7 @@
                 <div id="result-rank">A</div>
                 <p id="coach-comment">"..."</p>
             </div>
-           
+            
             <div class="dashboard">
                 <div class="panel">
                     <h3 class="panel-h">Performance Summary</h3>
@@ -214,7 +214,7 @@
                 <h3 class="panel-h" style="border: none; text-align: center;">Leaderboard</h3>
                 <div id="leaderboard-list"></div>
             </div>
-           
+            
             <button class="btn" id="retry-btn" style="width: 100%; margin-top: 2rem;">New Practice Session</button>
         </div>
     </div>
@@ -231,8 +231,8 @@
     <div id="hud">
         <div id="top-bar">
             <div>
-                <h2 id="mode-title" style="font-family: 'Bebas Neue'; font-size: 1.8rem;">Ode to Joy</h2>
-                <p id="mode-subtitle" style="font-size: 0.7rem; letter-spacing: 0.2em; opacity: 0.5;">PLACEMENT TRAINING</p>
+                <h2 id="mode-title" style="font-family: 'Bebas Neue'; font-size: 1.8rem;">Iris (Intro)</h2>
+                <p id="mode-subtitle" style="font-size: 0.7rem; letter-spacing: 0.2em; opacity: 0.5;">CHORDAL POLYPHONY TRAINING</p>
             </div>
             <div id="score-num">000000</div>
         </div>
@@ -244,10 +244,10 @@
     </div>
 
     <div id="key-guide">
-        <span>S4: A STRING</span>
-        <span>S3: E STRING</span>
-        <span>S2: C STRING</span>
-        <span>S1: G STRING</span>
+        <span>S4: D STRING</span>
+        <span>S3: D STRING</span>
+        <span>S2: D STRING</span>
+        <span>S1: B STRING</span>
     </div>
 
     <canvas id="c"></canvas>
@@ -276,7 +276,7 @@
         const topBarEl = document.getElementById('top-bar');
         const scoreNumEl = document.getElementById('score-num');
 
-        // FIX 3: Fully safe Firebase initialization guard
+        // Safe Firebase initialization guard
         let firebaseConfig = null;
         try { firebaseConfig = (typeof __firebase_config !== 'undefined' && __firebase_config) ? JSON.parse(__firebase_config) : null; } catch(e) {}
         const app = firebaseConfig ? initializeApp(firebaseConfig) : null;
@@ -284,7 +284,7 @@
         const db = app ? getFirestore(app) : null;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'virtuoso-arduino';
 
-        // FIX 1: Timing constants (units: beats)
+        // Timing constants (units: beats)
         const EARLY_WINDOW = 0.3;
         const LATE_WINDOW = 0.45;
         const PERFECT_WINDOW = 0.12;
@@ -305,44 +305,40 @@
         };
         initAuth();
 
+        // UPDATED: "Iris" Custom Alt-Tuning (B-D-D-D)
         const STRS = [
-            { id: 3, label: 'A', freq: 440.00, col: '#c4b5fd', rgb: '196,181,253', keys: ['6','1','2','3','4','5'] },
-            { id: 2, label: 'E', freq: 329.63, col: '#6ee7b7', rgb: '110,231,183', keys: ['y','q','w','e','r','t'] },
-            { id: 1, label: 'C', freq: 261.63, col: '#fcd34d', rgb: '252,211,77',  keys: ['h','a','s','d','f','g'] },
-            { id: 0, label: 'G', freq: 392.00, col: '#fca5a5', rgb: '252,165,165', keys: ['n','z','x','c','v','b'] }
+            { id: 3, label: 'D', freq: 293.66, col: '#c4b5fd', rgb: '196,181,253', keys: ['6','1','2','3','4','5'] },
+            { id: 2, label: 'D', freq: 293.66, col: '#6ee7b7', rgb: '110,231,183', keys: ['y','q','w','e','r','t'] },
+            { id: 1, label: 'D', freq: 293.66, col: '#fcd34d', rgb: '252,211,77',  keys: ['h','a','s','d','f','g'] },
+            { id: 0, label: 'B', freq: 246.94, col: '#fca5a5', rgb: '252,165,165', keys: ['n','z','x','c','v','b'] }
         ];
 
         const KEYMAP = {};
         STRS.forEach(s => s.keys.forEach((k, i) => KEYMAP[k] = { sid: s.id, fret: i }));
 
         const BEAT_OFFSET = 1.0;
+        
+        // UPDATED: Iris Intro Chords 
         const RAW_SONG = [
-            {s:2,f:0,b:0}, {s:2,f:0,b:1}, {s:2,f:1,b:2}, {s:2,f:3,b:3},
-            {s:2,f:3,b:4}, {s:2,f:1,b:5}, {s:2,f:0,b:6}, {s:1,f:2,b:7},
-            {s:1,f:0,b:8}, {s:1,f:0,b:9}, {s:1,f:2,b:10}, {s:2,f:0,b:11},
-            {s:2,f:0,b:12.5}, {s:1,f:2,b:13}, {s:1,f:2,b:14},
-            {s:2,f:0,b:16}, {s:2,f:0,b:17}, {s:2,f:1,b:18}, {s:2,f:3,b:19},
-            {s:2,f:3,b:20}, {s:2,f:1,b:21}, {s:2,f:0,b:22}, {s:1,f:2,b:23},
-            {s:1,f:0,b:24}, {s:1,f:0,b:25}, {s:1,f:2,b:26}, {s:2,f:0,b:27},
-            {s:1,f:2,b:28.5}, {s:1,f:0,b:29}, {s:1,f:0,b:30},
-            {s:1,f:2,b:32}, {s:1,f:2,b:33}, {s:2,f:0,b:34}, {s:1,f:0,b:35},
-            {s:1,f:2,b:36}, {s:2,f:0,b:37}, {s:2,f:1,b:37.5}, {s:2,f:0,b:38}, {s:1,f:0,b:39},
-            {s:1,f:2,b:40}, {s:2,f:0,b:41}, {s:2,f:1,b:41.5}, {s:2,f:0,b:42}, {s:1,f:2,b:43}, {s:1,f:0,b:44}, {s:1,f:2,b:45}, {s:0,f:0,b:46},
-            {s:2,f:0,b:48}, {s:2,f:0,b:49}, {s:2,f:1,b:50}, {s:2,f:3,b:51},
-            {s:2,f:3,b:52}, {s:2,f:1,b:53}, {s:2,f:0,b:54}, {s:1,f:2,b:55}, // FIX 2: Corrected beat 53: F natural (fret 1) instead of F#
-            {s:1,f:0,b:56}, {s:1,f:0,b:57}, {s:1,f:2,b:58}, {s:2,f:0,b:59},
-            {s:1,f:2,b:60.5}, {s:1,f:0,b:61}, {s:1,f:0,b:62}
+            // Bm7-ish Chord
+            {s:0, f:4, b:0}, {s:1, f:2, b:0}, {s:2, f:0, b:0},
+            {s:2, f:0, b:1}, {s:3, f:2, b:1.5},
+            // Asus4-ish Chord
+            {s:0, f:2, b:2}, {s:1, f:2, b:2}, {s:2, f:0, b:2},
+            {s:2, f:0, b:3}, {s:3, f:0, b:3.5},
+            // G Chord
+            {s:0, f:0, b:4}, {s:1, f:2, b:4}, {s:2, f:3, b:4}
         ];
 
         const SONG = RAW_SONG.map(n => ({ ...n, b: n.b + BEAT_OFFSET }));
 
-        // ADDED 2026-04-17: Convert string + fret into displayed musical note names
+        // Convert string + fret into displayed musical note names
         function getDisplayNoteName(sid, fret) {
             const NOTE_NAMES = {
-                0: ['G', 'G#', 'A', 'A#', 'B', 'C'],
-                1: ['C', 'C#', 'D', 'D#', 'E', 'F'],
-                2: ['E', 'F', 'F#', 'G', 'G#', 'A'],
-                3: ['A', 'A#', 'B', 'C', 'C#', 'D']
+                0: ['B', 'C', 'C#', 'D', 'D#', 'E'],
+                1: ['D', 'D#', 'E', 'F', 'F#', 'G'],
+                2: ['D', 'D#', 'E', 'F', 'F#', 'G'],
+                3: ['D', 'D#', 'E', 'F', 'F#', 'G']
             };
             return (NOTE_NAMES[sid] && NOTE_NAMES[sid][fret]) ? NOTE_NAMES[sid][fret] : '';
         }
@@ -354,8 +350,10 @@
         let freePlayPulse = null;
         let freePlayMessageUntil = 0;
         let W, H, neckX, neckY, neckW, neckH, fretW, stringY;
+        
+        // ADDED: Track the anchor finger for Last Fret optimization visual
+        let lastFretPosition = 0;
 
-        // ADDED 2026-04-17: Web Serial state for Arduino input
         let serialPort = null;
         let serialReader = null;
         let serialKeepReading = false;
@@ -374,7 +372,6 @@
             }
         }
 
-        // ADDED 2026-04-17: Connect to Arduino over Web Serial
         async function connectArduino() {
             if (!('serial' in navigator)) {
                 setSerialStatus('WEB SERIAL NOT SUPPORTED');
@@ -394,7 +391,6 @@
             }
         }
 
-        // ADDED 2026-04-17: Read incoming Arduino serial lines and map them to handleInput(sid, fret)
         async function readArduinoSerial() {
             if (!serialPort) return;
 
@@ -421,31 +417,20 @@
 
                         console.log('SERIAL:', line);
 
-                        // Accept either "NOTE,2,4" or "2,4"
                         const parts = line.split(',');
 
                         if (parts.length === 3 && parts[0] === 'NOTE') {
                             const sid = Number(parts[1]);
                             const fret = Number(parts[2]);
 
-                            if (
-                                Number.isInteger(sid) &&
-                                Number.isInteger(fret) &&
-                                sid >= 0 && sid <= 3 &&
-                                fret >= 0 && fret <= 5
-                            ) {
+                            if (Number.isInteger(sid) && Number.isInteger(fret) && sid >= 0 && sid <= 3 && fret >= 0 && fret <= 5) {
                                 handleInput(sid, fret);
                             }
                         } else if (parts.length === 2) {
                             const sid = Number(parts[0]);
                             const fret = Number(parts[1]);
 
-                            if (
-                                Number.isInteger(sid) &&
-                                Number.isInteger(fret) &&
-                                sid >= 0 && sid <= 3 &&
-                                fret >= 0 && fret <= 5
-                            ) {
+                            if (Number.isInteger(sid) && Number.isInteger(fret) && sid >= 0 && sid <= 3 && fret >= 0 && fret <= 5) {
                                 handleInput(sid, fret);
                             }
                         }
@@ -485,39 +470,55 @@
             masterGain.connect(aCtx.destination);
         }
 
+        // UPDATED: Modified playNote to sustain out acoustic chords like Iris
         function playNote(sid, fret) {
             if (!aCtx) return;
             const s = STRS.find(x => x.id === sid);
             const freq = s.freq * Math.pow(2, fret / 12);
-            const duration = 1.0;
+            
+            const duration = 2.0; 
             const sampleRate = aCtx.sampleRate;
             const length = Math.floor(duration * sampleRate);
             const buffer = aCtx.createBuffer(1, length, sampleRate);
             const data = buffer.getChannelData(0);
             const period = Math.floor(sampleRate / freq);
             const delayLine = new Float32Array(period);
+            
             for (let i = 0; i < period; i++) delayLine[i] = Math.random() * 2 - 1;
             let p = 0;
             for (let i = 0; i < length; i++) {
                 const x0 = delayLine[p], x1 = delayLine[(p + 1) % period];
-                const val = 0.5 * (x0 + x1) * 0.99;
+                const val = 0.5 * (x0 + x1) * 0.992; 
                 data[i] = x0; delayLine[p] = val; p = (p + 1) % period;
             }
+
             const source = aCtx.createBufferSource();
             source.buffer = buffer;
             const g = aCtx.createGain();
-            g.gain.setValueAtTime(0.6, aCtx.currentTime);
-            g.gain.exponentialRampToValueAtTime(0.01, aCtx.currentTime + duration);
+            g.gain.setValueAtTime(0.5, aCtx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.001, aCtx.currentTime + duration);
             source.connect(g); g.connect(masterGain); source.start();
-            vibs[3 - sid] = 8;
+            vibs[3 - sid] = 12;
         }
 
         function drawNeck() {
-            // FIX: Lighter guitar neck
             ctx.fillStyle = '#6b4a34';
             ctx.fillRect(neckX, neckY, neckW, neckH);
             ctx.fillStyle = 'rgba(0,0,0,0.25)';
             ctx.fillRect(neckX, neckY, fretW, neckH);
+            
+            // UPDATED: Draw Last Fret Position Reach
+            if (lastFretPosition > 0) {
+                ctx.fillStyle = 'rgba(251, 191, 36, 0.07)';
+                const reachStart = neckX + (lastFretPosition * fretW) - (fretW * 0.5);
+                ctx.fillRect(reachStart, neckY, fretW * 4, neckH);
+                
+                ctx.strokeStyle = 'rgba(251, 191, 36, 0.3)';
+                ctx.setLineDash([5, 5]);
+                ctx.strokeRect(reachStart, neckY, fretW * 4, neckH);
+                ctx.setLineDash([]); 
+            }
+
             for(let i=0; i<=6; i++) {
                 const x = neckX + i * fretW;
                 const isNut = i === 1;
@@ -539,7 +540,6 @@
                 const y = stringY[i], v = vibs[i];
                 ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.lineWidth = 2 + i*0.5;
                 ctx.beginPath(); ctx.moveTo(neckX, y + 2); ctx.lineTo(neckX + neckW, y + 2); ctx.stroke();
-                // FIX: Darker gray strings
                 ctx.strokeStyle = 'rgba(120,120,120,0.9)';
                 ctx.lineWidth = 1.5 + i*0.2;
                 ctx.beginPath(); ctx.moveTo(neckX, y);
@@ -553,14 +553,13 @@
             let activeIndex = -1, minDiff = Infinity;
             SONG.forEach((n, i) => {
                 const d = n.b - beat;
-                // FIX 4: Unit wording fix - timing in beats
                 if (noteStates[i] === 'pending' && d > -LATE_WINDOW && d < minDiff) { minDiff = d; activeIndex = i; }
             });
             SONG.forEach((n, i) => {
                 const diff = n.b - beat;
                 if (diff < -LATE_WINDOW || diff > 2.5 || noteStates[i] !== 'pending') return;
                 const pos = getNotePos(n.s, n.f), s = STRS.find(st => st.id === n.s), isActive = (i === activeIndex);
-                const alpha = isActive ? 1.0 : Math.max(0.2, 0.5 - diff * 0.2), radius = isActive ? 28 + Math.sin(Date.now() * 0.01) * 3 : 22;
+                const alpha = Math.max(0.2, 0.5 - diff * 0.2), radius = isActive ? 28 + Math.sin(Date.now() * 0.01) * 3 : 22;
                 const clusterCount = SONG.filter((other, idx) => noteStates[idx] === 'pending' && Math.abs(other.b - n.b) < 0.2).length;
                 if (diff > 0) {
                     ctx.strokeStyle = `rgba(${isActive ? s.rgb : '120,120,120'}, ${isActive ? 0.8 : 0.2})`;
@@ -594,7 +593,6 @@
             draw() { ctx.fillStyle = `rgba(${this.col}, ${this.life})`; ctx.beginPath(); ctx.arc(this.x, this.y, 4, 0, Math.PI*2); ctx.fill(); }
         }
 
-
         function setModeUI(title, subtitle) {
             modeTitleEl.textContent = title;
             modeSubtitleEl.textContent = subtitle;
@@ -624,20 +622,14 @@
 
             ctx.strokeStyle = `rgba(${s.rgb}, ${0.75 * freePlayPulse.life})`;
             ctx.lineWidth = 5 * freePlayPulse.life + 1;
-            ctx.beginPath();
-            ctx.arc(pos.x, pos.y, pulseRadius, 0, Math.PI * 2);
-            ctx.stroke();
+            ctx.beginPath(); ctx.arc(pos.x, pos.y, pulseRadius, 0, Math.PI * 2); ctx.stroke();
 
             ctx.fillStyle = s.col;
-            ctx.beginPath();
-            ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2); ctx.fill();
 
             ctx.strokeStyle = `rgba(255,255,255,${0.95 * freePlayPulse.life})`;
             ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.arc(pos.x, pos.y, radius - 5, 0, Math.PI * 2);
-            ctx.stroke();
+            ctx.beginPath(); ctx.arc(pos.x, pos.y, radius - 5, 0, Math.PI * 2); ctx.stroke();
 
             ctx.fillStyle = '#000';
             ctx.font = 'bold 15px monospace';
@@ -646,9 +638,10 @@
             ctx.fillText(noteName, pos.x, pos.y);
         }
 
+        // UPDATED: handleInput logic changed to support simultaneous polyphonic hits
         function handleInput(sid, fret) {
             if (phase !== 'playing' && phase !== 'freeplay') return;
-           
+            
             const now = Date.now();
             const keyId = `${sid}-${fret}`;
             if (lastKeyTime[keyId] && now - lastKeyTime[keyId] < INPUT_DEBOUNCE) return;
@@ -656,310 +649,202 @@
 
             playNote(sid, fret);
 
+            // LAST FRET LOGIC: Update hand anchor position
+            if (fret > 0) lastFretPosition = fret; 
+
             if (phase === 'freeplay') {
                 triggerFreePlayFeedback(sid, fret);
                 return;
             }
-           
-            // FIX 1: Robust repeated-note logic (signed offset in beats: (+) late, (-) early)
-            let best = -1;
-            for (let i = 0; i < SONG.length; i++) {
-                const n = SONG[i];
-                if (noteStates[i] !== 'pending' || n.s !== sid || n.f !== fret) continue;
+            
+            // CHORD LOGIC: Do not 'break', allow multiple matches in the hit window
+            SONG.forEach((n, i) => {
+                if (noteStates[i] !== 'pending' || n.s !== sid || n.f !== fret) return;
+                
                 const offset = beat - n.b;
                 if (offset >= -EARLY_WINDOW && offset <= LATE_WINDOW) {
-                    best = i; break; // Earliest eligible note found
-                }
-            }
-
-            if (best >= 0) {
-                const diff = Math.abs(SONG[best].b - beat);
-                const isP = diff < PERFECT_WINDOW;
-                noteStates[best] = 'hit';
-                performanceLog[best] = { type: isP ? 'perfect' : 'good', string: sid, fret: fret, timing: diff };
-                hits++; combo++; if (combo > maxCombo) maxCombo = combo;
-                if (isP) totalPerfects++;
-                score += Math.round(150 * (1 - diff));
-                const pos = getNotePos(sid, fret);
-                const s = STRS.find(st => st.id === sid);
-                for(let i=0; i<12; i++) particles.push(new Particle(pos.x, pos.y, s.rgb));
-                updateHUD();
-            } else {
-                wrongInputs++;
-                score = Math.max(0, score - 25);
-                combo = 0;
-                updateHUD();
-            }
-        }
-
-        function updateHUD() {
-            scoreEl.textContent = score.toString().padStart(6, '0');
-            comboEl.textContent = '×' + combo;
-            comboWrap.style.opacity = combo > 0 ? 1 : 0;
-        }
-
-        function checkMisses() {
-            SONG.forEach((n, i) => {
-                // FIX 4: Unit wording fix - timing in beats
-                if (noteStates[i] === 'pending' && beat > n.b + LATE_WINDOW) {
-                    noteStates[i] = 'missed';
-                    performanceLog[i] = { type: 'miss', string: n.s, fret: n.f, timing: 1.0 };
-                    totalMisses++;
-                    combo = 0;
-                    score = Math.max(0, score - 50);
-                    updateHUD();
+                    const diff = Math.abs(offset);
+                    const isP = diff < PERFECT_WINDOW;
+                    const pos = getNotePos(sid, fret);
+                    const s = STRS.find(st => st.id === sid);
+                    
+                    noteStates[i] = 'hit';
+                    performanceLog[i] = { type: isP ? 'perfect' : 'good', string: sid, fret: fret, timing: diff };
+                    
+                    hits++;
+                    combo++;
+                    if (combo > maxCombo) maxCombo = combo;
+                    if (isP) totalPerfects++;
+                    
+                    score += isP ? 1000 : 500;
+                    scoreEl.textContent = score.toString().padStart(6, '0');
+                    
+                    for(let p=0; p < 15; p++) particles.push(new Particle(pos.x, pos.y, s.rgb));
                 }
             });
         }
 
-        async function saveScore(name) {
-            try {
-                const key = 'virtuoso-session-leaderboard';
-                const existing = sessionStorage.getItem(key);
-                let data = existing ? JSON.parse(existing) : [];
+        function updateGame() {
+            if (phase === 'playing') {
+                const currentMs = performance.now();
+                beat += (currentMs - lastMs) * (100 / 60000); 
+                lastMs = currentMs;
 
-                data.push({
-                    name,
-                    score,
-                    accuracy: Math.round((hits / SONG.length) * 100),
-                    timestamp: Date.now()
+                let missedAny = false;
+                SONG.forEach((n, i) => {
+                    if (noteStates[i] === 'pending' && beat - n.b > LATE_WINDOW) {
+                        noteStates[i] = 'missed';
+                        performanceLog[i] = { type: 'miss', string: n.s, fret: n.f, timing: 0 };
+                        combo = 0; missedAny = true; totalMisses++;
+                    }
                 });
-
-                data.sort((a, b) => b.score - a.score);
-                data = data.slice(0, 5);
-
-                sessionStorage.setItem(key, JSON.stringify(data));
-                loadLeaderboard();
-            } catch (e) {
-                console.error('Session leaderboard save error:', e);
-            }
-        }
-
-        async function loadLeaderboard() {
-            const listEl = document.getElementById('leaderboard-list');
-
-            try {
-                const key = 'virtuoso-session-leaderboard';
-                const existing = sessionStorage.getItem(key);
-                let data = existing ? JSON.parse(existing) : [];
-
-                data.sort((a, b) => b.score - a.score);
-                data = data.slice(0, 5);
-
-                const pName = nameInput.value.trim();
-
-                if (!data.length) {
-                    listEl.innerHTML = '<p style="opacity:0.5;font-size:0.7rem;">NO SCORES YET THIS SESSION</p>';
-                    return;
+                
+                if (missedAny) {
+                    comboWrap.style.opacity = 0;
+                    document.body.style.backgroundColor = '#2a0a0a';
+                    setTimeout(() => document.body.style.backgroundColor = 'var(--bg)', 100);
+                } else if (combo > 2) {
+                    comboWrap.style.opacity = 1;
+                    comboEl.textContent = '×' + combo;
+                    if (combo % 10 === 0) {
+                        comboEl.style.transform = 'scale(1.5)';
+                        setTimeout(() => comboEl.style.transform = 'scale(1)', 200);
+                    }
                 }
 
-                listEl.innerHTML = data.map((d, i) => `
-                    <div class="lb-row ${d.name === pName ? 'active' : ''}">
-                        <span>#${i+1} ${d.name}</span>
-                        <span style="font-family:JetBrains Mono">${d.score.toLocaleString()}</span>
-                    </div>
-                `).join('');
-            } catch (e) {
-                console.error('Session leaderboard load error:', e);
-                listEl.innerHTML = '<p>Error loading rankings.</p>';
+                if (beat > SONG[SONG.length - 1].b + 3) endGame();
+            } else if (phase === 'freeplay') {
+                if (performance.now() > freePlayMessageUntil) {
+                    freeplayReadoutEl.style.opacity = '0';
+                }
+                if (freePlayPulse) {
+                    freePlayPulse.life -= 0.05;
+                    if (freePlayPulse.life <= 0) freePlayPulse = null;
+                }
             }
+
+            vibs = vibs.map(v => v * 0.85);
+            particles.forEach(p => p.update());
+            particles = particles.filter(p => p.life > 0);
         }
 
-        function analyzeSession(name, noteAcc, inputAcc) {
-            const insightList = document.getElementById('insight-list');
-            const commentBox = document.getElementById('coach-comment');
-            insightList.innerHTML = '';
-           
-            const mid = Math.floor(performanceLog.length / 2);
-            const firstHalfMisses = performanceLog.slice(0, mid).filter(p => p.type === 'miss').length;
-            const secondHalfMisses = performanceLog.slice(mid).filter(p => p.type === 'miss').length;
-           
-            const stringStats = [0, 1, 2, 3].map(id => {
-                const notes = performanceLog.filter(p => p.string === id);
-                const hits = notes.filter(p => p.type !== 'miss').length;
-                return { id, acc: notes.length ? hits / notes.length : 1 };
-            });
-            const worstString = stringStats.sort((a, b) => a.acc - b.acc)[0];
-            const bestString = stringStats.sort((a, b) => b.acc - a.acc)[0];
-
-            let rank = 'C', coachMsg = "";
-           
-            if (noteAcc >= 98 && inputAcc >= 95) rank = 'S';
-            else if (noteAcc >= 85 && inputAcc >= 80) rank = 'A';
-            else if (noteAcc >= 70 || inputAcc >= 60) rank = 'B';
-            else rank = 'C';
-
-            if (rank === 'S') coachMsg = `"${name}, that was absolutely flawless. Your hands are moving with surgical precision."`;
-            else if (noteAcc > 90 && inputAcc < 70) coachMsg = `"${name}, you hit almost everything, but your fingerwork is a bit noisy. Focus on 'one press, one note' precision."`;
-            else if (noteAcc < 75 && inputAcc > 90) coachMsg = `"${name}, you are very precise when you play, but you're missing opportunities. Trust your speed more!"`;
-            else if (rank === 'A') coachMsg = `"${name}, excellent precision! You really captured the soul of this piece today."`;
-            else if (rank === 'B') coachMsg = `"${name}, you're making great progress. Your placement is steady, just work on those quicker transitions."`;
-            else coachMsg = `"${name}, every master starts somewhere. Let's focus on hitting the big notes first and cleaning up the technique later."`;
-
-            if (secondHalfMisses < firstHalfMisses && noteAcc < 90) coachMsg += " I noticed you settled into a much better groove in the second half.";
-           
-            commentBox.textContent = coachMsg;
-            document.getElementById('result-rank').textContent = rank;
-
-            document.getElementById('m-note-acc').textContent = noteAcc + '%';
-            document.getElementById('m-input-acc').textContent = inputAcc + '%';
-            document.getElementById('m-streak').textContent = maxCombo;
-            document.getElementById('m-perfect').textContent = totalPerfects;
-           
-            const validHits = performanceLog.filter(p => p.type !== 'miss');
-            const avgTiming = validHits.length ? validHits.reduce((a, b) => a + b.timing, 0) / validHits.length : 1.0;
-           
-            const addInsight = (text, isPos) => {
-                const div = document.createElement('div');
-                div.className = 'insight-item';
-                div.innerHTML = `<div class="insight-icon ${isPos ? 'icon-pos' : 'icon-neg'}"></div><span>${text}</span>`;
-                insightList.appendChild(div);
-            };
-
-            if (inputAcc > 90) addInsight("Surgical finger placement.", true);
-            if (avgTiming < 0.08) addInsight("Pro-level rhythmic timing.", true);
-            if (firstHalfMisses === 0) addInsight("Perfect confidence in the intro.", true);
-            if (bestString.acc > 0.95 && hits > 10) addInsight(`Dominating the ${STRS.find(s=>s.id===bestString.id).label} string.`, true);
-
-            if (wrongInputs > hits * 0.3) addInsight("Try to minimize stray inputs.", false);
-            if (secondHalfMisses > firstHalfMisses + 4) addInsight("Stay focused until the final bar.", false);
-            if (worstString.acc < 0.6) addInsight(`Tough string today: ${STRS.find(s=>s.id===worstString.id).label}.`, false);
-            if (totalMisses > 12) addInsight("Practice the bridge section slow.", false);
+        function draw() {
+            ctx.clearRect(0, 0, W, H);
+            drawNeck();
+            if (phase === 'playing') drawNotes();
+            if (phase === 'freeplay') drawFreePlayPulse();
+            particles.forEach(p => p.draw());
+            requestAnimationFrame(() => { updateGame(); draw(); });
         }
 
-
-        function startFreePlay() {
-            phase = 'freeplay';
-            beat = 0; score = 0; combo = 0; maxCombo = 0; hits = 0; totalPerfects = 0; totalMisses = 0; wrongInputs = 0;
-            noteStates = SONG.map(() => 'pending'); performanceLog = []; lastKeyTime = {};
-            freePlayPulse = null;
-            freePlayMessageUntil = 0;
-            freeplayReadoutEl.style.opacity = '0';
-            updateHUD();
-            setModeUI('Free Play', 'PLAY ANY NOTE');
-            scoreEl.style.display = 'none';
-            comboWrap.style.opacity = 0;
-            document.getElementById('home-btn').style.display = 'block';
-            splashEl.classList.add('hidden');
-            lastMs = performance.now();
-        }
-
-        function startCountdown() {
+        async function startGame() {
+            await initAudio();
             phase = 'countdown';
-            beat = -1.5; score = 0; combo = 0; maxCombo = 0; hits = 0; totalPerfects = 0; totalMisses = 0; wrongInputs = 0;
-            noteStates = SONG.map(() => 'pending'); performanceLog = []; lastKeyTime = {};
-            document.getElementById('home-btn').style.display = 'none';
-            updateHUD();
-            let n = 3; cdEl.style.opacity = '1';
-            const tick = () => {
-                if (n > 0) { cdEl.textContent = n--; setTimeout(tick, 900); }
-                else {
-                    cdEl.textContent = 'GO!';
-                    setTimeout(() => {
-                        cdEl.style.opacity = '0'; phase = 'playing'; document.getElementById('home-btn').style.display = 'block'; lastMs = performance.now(); beat = 0;
-                    }, 500);
+            splashEl.classList.add('hidden');
+            cdEl.style.opacity = 1;
+            
+            beat = 0; score = 0; combo = 0; maxCombo = 0; hits = 0; totalPerfects = 0; totalMisses = 0; wrongInputs = 0;
+            noteStates = SONG.map(() => 'pending');
+            performanceLog = [];
+            scoreEl.textContent = '000000';
+            comboWrap.style.opacity = 0;
+
+            let c = 3;
+            cdEl.textContent = c;
+            const iv = setInterval(() => {
+                c--;
+                if (c > 0) {
+                    cdEl.textContent = c;
+                } else {
+                    clearInterval(iv);
+                    cdEl.style.opacity = 0;
+                    phase = 'playing';
+                    lastMs = performance.now();
                 }
-            };
-            tick();
+            }, 1000);
+        }
+
+        async function startFreePlay() {
+            await initAudio();
+            phase = 'freeplay';
+            splashEl.classList.add('hidden');
+            setHUDForMode();
+            document.getElementById('home-btn').style.display = 'block';
         }
 
         function endGame() {
             phase = 'results';
-            const name = nameInput.value.trim() || 'Player';
-           
-            const noteAcc = Math.round((hits / SONG.length) * 100);
-            const totalPresses = hits + wrongInputs;
-            const inputAcc = Math.round((hits / (totalPresses || 1)) * 100);
+            const total = SONG.length;
+            const acc = total > 0 ? Math.round((hits / total) * 100) : 0;
+            const inputAcc = (hits + wrongInputs) > 0 ? Math.round((hits / (hits + wrongInputs)) * 100) : 0;
+            
+            document.getElementById('m-note-acc').textContent = acc + '%';
+            document.getElementById('m-input-acc').textContent = inputAcc + '%';
+            document.getElementById('m-streak').textContent = maxCombo;
+            document.getElementById('m-perfect').textContent = totalPerfects;
 
-            document.getElementById('result-name').textContent = `${name.toUpperCase()}'S PERFORMANCE`;
-            analyzeSession(name, noteAcc, inputAcc);
-            saveScore(name);
-            document.getElementById('home-btn').style.display = 'block';
+            let rank = 'F', comment = "Keep practicing. Focus on one string at a time.";
+            if (acc >= 95) { rank = 'S'; comment = "Flawless polyphony! Your hand placement is highly efficient."; }
+            else if (acc >= 85) { rank = 'A'; comment = "Great job hitting those chords. Keep working on the perfect timing."; }
+            else if (acc >= 70) { rank = 'B'; comment = "Solid attempt. Watch your chord transitions and last-fret anchoring."; }
+            else if (acc >= 50) { rank = 'C'; comment = "You're getting the shapes, but the rhythm is slipping. Slow down."; }
+
+            document.getElementById('result-rank').textContent = rank;
+            document.getElementById('result-rank').style.color = rank === 'S' || rank === 'A' ? 'var(--gold)' : (rank === 'F' ? '#f43f5e' : '#fff');
+            document.getElementById('coach-comment').textContent = `"${comment}"`;
+            
+            const insightList = document.getElementById('insight-list');
+            insightList.innerHTML = '';
+            
+            if (inputAcc < 80) insightList.innerHTML += `<div class="insight-item"><div class="insight-icon icon-neg"></div><div><strong>Messy Inputs:</strong> You are triggering strings you shouldn't be. Keep your strumming hand clean.</div></div>`;
+            if (totalMisses > 5) insightList.innerHTML += `<div class="insight-item"><div class="insight-icon icon-neg"></div><div><strong>Dropped Chords:</strong> You missed several clusters entirely. Anticipate the next anchor fret.</div></div>`;
+            if (acc >= 85 && inputAcc >= 90) insightList.innerHTML += `<div class="insight-item"><div class="insight-icon icon-pos"></div><div><strong>Clean Articulation:</strong> Excellent finger control during the 6/8 transitions.</div></div>`;
+            
+            if (insightList.innerHTML === '') insightList.innerHTML = `<div class="insight-item" style="color: rgba(255,255,255,0.5); font-style: italic;">Play a full session to generate insights.</div>`;
+
             resultEl.classList.remove('hidden');
         }
 
-        function loop(ms) {
-            const dt = (ms - lastMs) / 1000;
-            lastMs = ms;
-            if (phase === 'playing') {
-                beat += dt * (72/60);
-                checkMisses();
-                if (beat > SONG[SONG.length-1].b + 2.5) endGame();
-            } else if (phase === 'freeplay') {
-                if (freePlayPulse) {
-                    freePlayPulse.life -= 0.03;
-                    if (freePlayPulse.life <= 0) freePlayPulse = null;
-                }
-                if (performance.now() > freePlayMessageUntil) {
-                    freeplayReadoutEl.style.opacity = '0';
-                }
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && phase === 'splash') startGame();
+            if (phase === 'playing' || phase === 'freeplay') {
+                const k = e.key.toLowerCase();
+                if (KEYMAP[k]) handleInput(KEYMAP[k].sid, KEYMAP[k].fret);
             }
-            ctx.clearRect(0,0,W,H);
-            drawNeck();
-            if (phase === 'playing') drawNotes();
-            if (phase === 'freeplay') drawFreePlayPulse();
-            particles.forEach((p, i) => { p.update(); p.draw(); if (p.life <= 0) particles.splice(i, 1); });
-            vibs = vibs.map(v => v * 0.85);
-            requestAnimationFrame(loop);
-        }
-       
-        // ADDED 2026-04-17: Connect button for Arduino serial
-        document.getElementById('connect-btn').onclick = async () => {
-            await connectArduino();
-        };
+        });
 
-        document.getElementById('start-btn').onclick = async () => {
-            if (!nameInput.value.trim()) { nameInput.style.borderColor = '#ef4444'; return; }
-            await initAudio();
-            setModeUI('Ode to Joy', 'PLACEMENT TRAINING');
-            scoreEl.style.display = 'block';
-            freeplayReadoutEl.style.opacity = '0';
-            setHUDForMode();
-            splashEl.classList.add('hidden');
-            startCountdown();
-        };
+        document.getElementById('connect-btn').addEventListener('click', connectArduino);
+        
+        document.getElementById('start-btn').addEventListener('click', () => {
+            const n = nameInput.value.trim();
+            if (n) document.getElementById('result-name').textContent = n.toUpperCase();
+            startGame();
+        });
 
-        document.getElementById('free-play-btn').onclick = async () => {
-            await initAudio();
+        document.getElementById('free-play-btn').addEventListener('click', () => {
+            const n = nameInput.value.trim();
+            if (n) document.getElementById('result-name').textContent = n.toUpperCase();
             startFreePlay();
-        };
+        });
 
-        document.getElementById('home-btn').onclick = () => {
+        document.getElementById('retry-btn').addEventListener('click', () => {
+            resultEl.classList.add('hidden');
+            startGame();
+        });
+
+        document.getElementById('home-btn').addEventListener('click', () => {
             phase = 'splash';
-            splashEl.classList.remove('hidden');
-            resultEl.classList.add('hidden');
-            freeplayReadoutEl.style.opacity = '0';
-            score = 0;
-            combo = 0;
-            maxCombo = 0;
-            hits = 0;
-            totalPerfects = 0;
-            totalMisses = 0;
-            wrongInputs = 0;
-            noteStates = SONG.map(() => 'pending');
-            performanceLog = [];
-            particles = [];
-            vibs = [0,0,0,0];
-            freePlayPulse = null;
-            freePlayMessageUntil = 0;
-            updateHUD();
-            document.getElementById('home-btn').style.display = 'none';
-            setModeUI('Ode to Joy', 'PLACEMENT TRAINING');
-        };
-
-        document.getElementById('retry-btn').onclick = () => {
-            resultEl.classList.add('hidden');
-            splashEl.classList.remove('hidden');
-            scoreEl.style.display = 'block';
-            nameInput.value = '';
-            nameInput.style.borderColor = 'rgba(255,255,255,0.1)';
             freeplayReadoutEl.style.opacity = '0';
             document.getElementById('home-btn').style.display = 'none';
-            setModeUI('Ode to Joy', 'PLACEMENT TRAINING');
-        };
+            splashEl.classList.remove('hidden');
+            scoreNumEl.style.display = '';
+            comboWrap.style.opacity = 0;
+            lastFretPosition = 0;
+        });
 
         window.addEventListener('resize', layout);
-        layout(); setHUDForMode(); requestAnimationFrame(loop);
+        layout();
+        requestAnimationFrame(() => { updateGame(); draw(); });
     </script>
 </body>
 </html>
